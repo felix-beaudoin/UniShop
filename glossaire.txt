@@ -1,1 +1,2 @@
-glossaire!
+Acheteur:
+	Désigne ceux qui magasinent, achètent et évaluent les produits sur UniShop

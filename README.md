@@ -1,2 +1,8 @@
-# UniShop
-Repo github du projet de ift2255 pour l'automne 2023
+Équipe #45: Michel
+
+Félix Beaudoin
+Meriem Ghaoui
+Simon Lajoie
+Lucas Trespaillé-Guemache
+
+
