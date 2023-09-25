@@ -13,6 +13,84 @@
             <dd>Désigne ceux qui magasinent, achètent et évaluent les produits sur UniShop</dd>
         </dl>
     </div>
+    <div id="cas_utilisation">
+        <h2>Description des cas d'utilisation</h2>
+        <p>
+            <span style="font-weight: bold;">Cas d'utilisation :</span> S'inscrire comme acheteur.<br>
+            <span style="font-weight: bold;">But :</span> Permettre à un nouvel utilisateur de créer un compte acheteur.<br>
+            <span style="font-weight: bold;">Préconditions :</span> L'utilisateur est sur la page d'inscription.<br>
+            <span style="font-weight: bold;">Acteurs :</span> Nouvel utilisateur (principal), Système (secondaire).<br>
+            <span style="font-weight: bold;">Scénario principal :</span><br>
+            1. L'utilisateur accède à la page d'inscription.<br>
+            2. L'utilisateur entre ses informations de profil : nom, prénom, pseudo (unique), adresse courriel, téléphone.<br>
+            3. L'utilisateur entre son adresse d'expédition.<br>
+            4. L'utilisateur soumet le formulaire d'inscription.<br>
+            5. Le système valide les informations et crée le nouveau compte.<br>
+            <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
+            5a.1. Si les informations fournies ne sont pas valides, le système affiche un message d'erreur et invite l'utilisateur à corriger les informations.<br>
+            <span style="font-weight: bold;">Postconditions :</span>
+            Un nouveau compte acheteur est créé. L'utilisateur peut maintenant se connecter à UniShop avec ce compte.<br>
+        </p>
+        <p>
+            <span style="font-weight: bold;">Cas d'utilisation :</span> Modification du profil.<br>
+            <span style="font-weight: bold;">But :</span> Permettre à un membre existant de modifier son profil.<br>
+            <span style="font-weight: bold;">Préconditions :</span> Le membre est connecté à son compte sur UniShop.<br>
+            <span style="font-weight: bold;">Acteurs :</span> Membre (principal), Système (secondaire).<br>
+            <span style="font-weight: bold;">Scénario principal :</span><br>
+            1. Le membre accède à la page de son profil.<br>
+            2. Le membre modifie les informations de son profil.<br>
+            3. Le membre soumet le formulaire de modification.<br>
+            4. Le système valide les modifications et met à jour le profil du membre.<br>
+            <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
+            4a.1. Si les modifications ne sont pas valides, le système affiche un message d'erreur et invite le membre à corriger les informations.<br>
+            <span style="font-weight: bold;">Postconditions :</span> 
+            Le profil du membre est mis à jour avec les nouvelles informations.<br>
+        </p>
+        <p>
+            <span style="font-weight: bold;">Cas d'utilisation :</span> Afficher une liste de produits disponibles.<br>
+            <span style="font-weight: bold;">But :</span> Permettre à un utilisateur de voir tous les produits disponibles à l'achat.<br>
+            <span style="font-weight: bold;">Préconditions :</span> L'utilisateur est sur la page des produits de UniShop.<br>
+            <span style="font-weight: bold;">Acteurs :</span> Utilisateur (principal), Système (secondaire).<br>
+            <span style="font-weight: bold;">Scénario principal :</span><br>
+            1. L'utilisateur accède à la page des produits.<br>
+            2. Le système affiche une liste de tous les produits disponibles.<br>
+            <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
+            2a.1. Si un produit est indisponible, le système affiche un message pour ce produit indiquant qu'il n'est pas actuellement disponible.<br>
+            <span style="font-weight: bold;">Postconditions :</span> 
+            L'utilisateur peut voir tous les produits disponibles à l'achat et peut sélectionner un produit pour plus de détails ou pour l'achat. Si un produit est indisponible, un message est affiché pour ce produit.<br>
+        </p>
+        <p>
+            <span style="font-weight: bold;">Cas d'utilisation :</span> Aimer des produits.<br>
+            <span style="font-weight: bold;">But :</span> Permettre aux acheteurs de "liker" les produits pour les faire découvrir plus facilement par d'autres acheteurs potentiels.<br>
+            <span style="font-weight: bold;">Préconditions :</span> L'acheteur doit être connecté à UniShop.<br>
+            <span style="font-weight: bold;">Acteurs :</span> Acheteur (principal), Système (secondaire).<br>
+            <span style="font-weight: bold;">Scénario principal :</span><br>
+            1. L'acheteur navigue à travers les produits.<br>
+            2. L'acheteur sélectionne un produit qui lui plaît.<br>
+            3. L'acheteur clique sur le bouton "like" du produit.<br>
+            4. Le système enregistre le "like" de l'acheteur.<br>
+            <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
+            3a.1. Si l'acheteur a déjà "liké" le produit, le système retire le "like".<br>
+            <span style="font-weight: bold;">Postconditions :</span> 
+            Le "like" de l'acheteur est enregistré et visible par d'autres utilisateurs.<br>
+        </p>
+        <p>
+            <span style="font-weight: bold;">Cas d'utilisation :</span> Recherche de produits.<br>
+            <span style="font-weight: bold;">But :</span> Permettre aux utilisateurs d'effectuer des recherches par mot-clé pour trouver des produits spécifiques.<br>
+            <span style="font-weight: bold;">Préconditions :</span> L'utilisateur doit être connecté à UniShop.<br>
+            <span style="font-weight: bold;">Acteurs :</span> Utilisateur (principal), Système (secondaire).<br>
+            <span style="font-weight: bold;">Scénario principal :</span><br>
+            1. L'utilisateur entre un mot-clé dans la barre de recherche.<br>
+            2. L'utilisateur sélectionne les filtres souhaités.<br>
+            3. L'utilisateur lance la recherche.<br>
+            4. Le système affiche les produits correspondant aux critères de recherche de l'utilisateur.<br>
+            <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
+            4a.1. Si aucun produit ne correspond aux critères de recherche, le système affiche un message indiquant qu'aucun produit n'a été trouvé.<br>
+            <span style="font-weight: bold;">Postconditions :</span> 
+            Les produits correspondant aux critères de recherche de l'utilisateur sont affichés.<br>
+        </p>
+
+    </div>
     
 </body>
 </html>
