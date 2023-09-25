@@ -27,7 +27,8 @@
             4. L'acheteur soumet le formulaire d'inscription.<br>
             5. Le système valide les informations et crée le nouveau compte.<br>
             <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
-            5a.1. Si les informations fournies ne sont pas valides, le système affiche un message d'erreur et invite l'acheteur à corriger les informations.<br>
+            5a.1. Les informations fournies ne sont pas valides.<br>
+            5a.2. Le système affiche un message d'erreur et invite l'acheteur à corriger les informations.<br>
             <span style="font-weight: bold;">Postconditions :</span>
             Un nouveau compte acheteur est créé. L'acheteur peut maintenant se connecter à UniShop avec ce compte.<br>
         </p>
@@ -42,7 +43,8 @@
             3. L'acheteur soumet le formulaire de modification.<br>
             4. Le système valide les modifications et met à jour le profil de l'acheteur.<br>
             <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
-            4a.1. Si les modifications ne sont pas valides, le système affiche un message d'erreur et invite l'acheteur à corriger les informations.<br>
+            4a.1. Les modifications ne sont pas valides.<br>
+            4a.2. Le système affiche un message d'erreur et invite l'acheteur à corriger les informations.<br>
             <span style="font-weight: bold;">Postconditions :</span>
             Le profil de l'acheteur est mis à jour avec les nouvelles informations.<br>
         </p>
@@ -55,9 +57,10 @@
             1. L'acheteur accède à la page des produits.<br>
             2. Le système affiche une liste de tous les produits disponibles.<br>
             <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
-            2a.1. Si un produit est indisponible, le système affiche un message pour ce produit indiquant qu'il n'est pas actuellement disponible.<br>
+            2a.1. Le produit est indisponible.<br>
+            2a.2. Le système affiche un message pour ce produit indiquant qu'il n'est pas actuellement disponible.<br>
             <span style="font-weight: bold;">Postconditions :</span>
-            L'acheteur peut voir tous les produits disponibles à l'achat et peut sélectionner un produit pour plus de détails ou pour l'achat. Si un produit est indisponible, un message est affiché pour ce produit.<br>
+            L'acheteur peut voir tous les produits disponibles à l'achat.<br>
         </p>
         <p>
             <span style="font-weight: bold;">Cas d'utilisation :</span> Aimer des produits.<br>
@@ -70,7 +73,8 @@
             3. L'acheteur clique sur le bouton "like" du produit.<br>
             4. Le système enregistre le "like" de l'acheteur.<br>
             <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
-            3a.1. Si l'acheteur a déjà "liké" le produit, le système retire le "like".<br>
+            3a.1. L'acheteur a déjà "liké" le produit.<br>
+            3a.2. Le système retire le "like".<br>
             <span style="font-weight: bold;">Postconditions :</span>
             Le "like" de l'acheteur est enregistré et visible par d'autres acheteurs.<br>
         </p>
@@ -84,7 +88,8 @@
             2. L'acheteur lance la recherche.<br>
             3. Le système affiche les produits correspondant au mot-clé de recherche de l'acheteur.<br>
             <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
-            3a.1. Si aucun produit ne correspond au mot-clé de recherche, le système affiche un message indiquant qu'aucun produit n'a été trouvé.<br>
+            3a.1. Aucun produit ne correspond au mot-clé de recherche.<br>
+            3a.2. Le système affiche un message indiquant qu'aucun produit n'a été trouvé.<br>
             <span style="font-weight: bold;">Postconditions :</span>
             Les produits correspondant au mot-clé de recherche de l'acheteur sont affichés.<br>
         </p>
@@ -98,8 +103,10 @@
             2. L'acheteur applique les filtres.<br>
             3. Le système affiche les produits correspondant aux critères de filtrage de l'acheteur.<br>
             <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
-            3a.1. Si aucun produit ne correspond aux critères de filtrage, le système affiche un message indiquant qu'aucun produit n'a été trouvé.<br>
-            1b.1. Si l'acheteur effectue une recherche par mot-clé avant de sélectionner les filtres, le système applique les filtres sur les résultats de la recherche.<br>
+            3a.1. Aucun produit ne correspond aux critères de filtrage.<br>
+            3a.2. Le système affiche un message indiquant qu'aucun produit n'a été trouvé.<br>
+            1b.1. L'acheteur effectue une recherche par mot-clé avant de sélectionner les filtres.<br>
+            1b.2. Le système applique les filtres sur les résultats de la recherche.<br>
             <span style="font-weight: bold;">Postconditions :</span>
             Les produits correspondant aux critères de filtrage de l'acheteur sont affichés.<br>
         </p>
@@ -114,7 +121,8 @@
             3. L'acheteur soumet une évaluation et un commentaire.<br>
             4. Le système enregistre l'évaluation et le commentaire de l'acheteur.<br>
             <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
-            3a.1. Si l'acheteur a déjà évalué le produit, le système permet à l'acheteur de mettre à jour son évaluation et son commentaire.<br>
+            3a.1. L'acheteur a déjà évalué le produit.<br>
+            3a.2. Le système permet à l'acheteur de mettre à jour son évaluation et son commentaire.<br>
             <span style="font-weight: bold;">Postconditions :</span>
             L'évaluation et le commentaire de l'acheteur sont enregistrés et visibles par d'autres acheteurs.<br>
         </p>
@@ -130,8 +138,10 @@
             4. L'acheteur peut visualiser le panier avec le montant total à payer.<br>
             5. L'acheteur peut retirer des produits du panier.<br>
             <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
-            2a.1. Si le produit est déjà dans le panier, le système met à jour la quantité du produit dans le panier.<br>
-            5a.1. Si l'acheteur retire tous les produits, le panier est vide et le montant total à payer est de zéro.<br>
+            2a.1. Le produit est déjà dans le panier.<br>
+            2a.2. Le système met à jour la quantité du produit dans le panier.<br>
+            5a.1. L'acheteur retire tous les produits du panier.<br>
+            5a.2. Le système affiche un panier vide avec un montant total à payer de zéro.<br>
             <span style="font-weight: bold;">Postconditions :</span>
             Le panier de l'acheteur est mis à jour avec les produits sélectionnés et le montant total à payer est affiché.<br>
         </p>
@@ -147,7 +157,8 @@
             4. Le système génère un identifiant unique pour la commande.<br>
             5. L'acheteur consulte l'état de sa commande.<br>
             <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
-            2a.1. Si l'acheteur a déjà une adresse de livraison enregistrée, le système utilise cette adresse.<br>
+            2a.1. L'acheteur a déjà une adresse de livraison enregistrée.<br>
+            2a.2. Le système utilise cette adresse.<br>
             <span style="font-weight: bold;">Postconditions :</span>
             La commande de l'acheteur est traitée et l'état de la commande est mis à jour.<br>
         </p>
@@ -161,12 +172,20 @@
             2. L'acheteur choisit de retourner ou d'échanger un produit, d'annuler la commande, de confirmer la réception de la commande, de signaler un problème avec un produit ou de suivre un retour ou un échange.<br>
             3. Le système traite la demande de l'acheteur.<br>
             <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
-            2a.1. Si l'acheteur retourne un produit, le système rembourse le montant du produit retourné au mode de paiement original de l'acheteur.<br>
-            2b.1. Si l'acheteur échange un produit, le système demande à l'acheteur de sélectionner le(s) produit(s) de remplacement et de payer la différence de prix.<br>
-            2c.1. Si l'acheteur annule la commande, le système annule la commande.<br>
-            2d.1. Si l'acheteur confirme la réception de la commande, le système met à jour l'état de la commande à "livré".<br>
-            2e.1. Si l'acheteur signale un problème avec un produit, le système enregistre le problème et informe le revendeur.<br>
-            2f.1. Si l'acheteur suit un retour ou un échange, le système fournit l'état du retour ou de l'échange.<br>
+            2a.1. L'acheteur retourne un produit.<br>
+            2a.2. Le système rembourse le montant du produit retourné au mode de paiement original de l'acheteur.<br>
+            2b.1. L'acheteur échange un produit.<br>
+            2b.2. Le système demande à l'acheteur de sélectionner le produit de remplacement.<br>
+            2b.3. Le système demande de payer la différence de prix.<br>
+            2c.1. L'acheteur annule la commande.<br>
+            2c.2. Le système annule la commande.<br>
+            2d.1. L'acheteur confirme la réception de la commande.<br>
+            2d.2. Le système met à jour l'état de la commande à "livré".<br>
+            2e.1. L'acheteur signale un problème avec un produit.<br>
+            2e.2. Le système enregistre le problème.<br>
+            2e.3. Le système informe le revendeur.<br>
+            2f.1. L'acheteur suit un retour ou un échange.
+            2f.2. Le système fournit l'état du retour ou de l'échange.<br>
             <span style="font-weight: bold;">Postconditions :</span>
             La demande de l'acheteur est traitée et l'état de la commande est mis à jour.<br>
         </p>
