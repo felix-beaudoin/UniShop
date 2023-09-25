@@ -43,7 +43,7 @@
             4. Le système valide les modifications et met à jour le profil du membre.<br>
             <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
             4a.1. Si les modifications ne sont pas valides, le système affiche un message d'erreur et invite le membre à corriger les informations.<br>
-            <span style="font-weight: bold;">Postconditions :</span> 
+            <span style="font-weight: bold;">Postconditions :</span>
             Le profil du membre est mis à jour avec les nouvelles informations.<br>
         </p>
         <p>
@@ -56,7 +56,7 @@
             2. Le système affiche une liste de tous les produits disponibles.<br>
             <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
             2a.1. Si un produit est indisponible, le système affiche un message pour ce produit indiquant qu'il n'est pas actuellement disponible.<br>
-            <span style="font-weight: bold;">Postconditions :</span> 
+            <span style="font-weight: bold;">Postconditions :</span>
             L'utilisateur peut voir tous les produits disponibles à l'achat et peut sélectionner un produit pour plus de détails ou pour l'achat. Si un produit est indisponible, un message est affiché pour ce produit.<br>
         </p>
         <p>
@@ -71,7 +71,7 @@
             4. Le système enregistre le "like" de l'acheteur.<br>
             <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
             3a.1. Si l'acheteur a déjà "liké" le produit, le système retire le "like".<br>
-            <span style="font-weight: bold;">Postconditions :</span> 
+            <span style="font-weight: bold;">Postconditions :</span>
             Le "like" de l'acheteur est enregistré et visible par d'autres utilisateurs.<br>
         </p>
         <p>
@@ -81,15 +81,95 @@
             <span style="font-weight: bold;">Acteurs :</span> Utilisateur (principal), Système (secondaire).<br>
             <span style="font-weight: bold;">Scénario principal :</span><br>
             1. L'utilisateur entre un mot-clé dans la barre de recherche.<br>
-            2. L'utilisateur sélectionne les filtres souhaités.<br>
-            3. L'utilisateur lance la recherche.<br>
-            4. Le système affiche les produits correspondant aux critères de recherche de l'utilisateur.<br>
+            2. L'utilisateur lance la recherche.<br>
+            3. Le système affiche les produits correspondant au mot-clé de recherche de l'utilisateur.<br>
             <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
-            4a.1. Si aucun produit ne correspond aux critères de recherche, le système affiche un message indiquant qu'aucun produit n'a été trouvé.<br>
-            <span style="font-weight: bold;">Postconditions :</span> 
-            Les produits correspondant aux critères de recherche de l'utilisateur sont affichés.<br>
+            3a.1. Si aucun produit ne correspond au mot-clé de recherche, le système affiche un message indiquant qu'aucun produit n'a été trouvé.<br>
+            <span style="font-weight: bold;">Postconditions :</span>
+            Les produits correspondant au mot-clé de recherche de l'utilisateur sont affichés.<br>
         </p>
-
+        <p>
+            <span style="font-weight: bold;">Cas d'utilisation :</span> Filtrer les produits.<br>
+            <span style="font-weight: bold;">But :</span> Permettre aux utilisateurs de trier les produits par catégorie, prix, note moyenne, ou popularité (nombre de likes)<br>
+            <span style="font-weight: bold;">Préconditions :</span> L'utilisateur doit être connecté à UniShop.<br>
+            <span style="font-weight: bold;">Acteurs :</span> Utilisateur (principal), Système (secondaire).<br>
+            <span style="font-weight: bold;">Scénario principal :</span><br>
+            1. L'utilisateur sélectionne les filtres souhaités (catégorie, prix, note moyenne, popularité).<br>
+            2. L'utilisateur applique les filtres.<br>
+            3. Le système affiche les produits correspondant aux critères de filtrage de l'utilisateur.<br>
+            <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
+            3a.1. Si aucun produit ne correspond aux critères de filtrage, le système affiche un message indiquant qu'aucun produit n'a été trouvé.<br>
+            1b.1. Si l'utilisateur effectue une recherche par mot-clé avant de sélectionner les filtres, le système applique les filtres sur les résultats de la recherche.<br>
+            <span style="font-weight: bold;">Postconditions :</span>
+            Les produits correspondant aux critères de filtrage de l'utilisateur sont affichés.<br>
+        </p>
+        <p>
+            <span style="font-weight: bold;">Cas d'utilisation :</span> Évaluation de produits.<br>
+            <span style="font-weight: bold;">But :</span> Permettre aux acheteurs de laisser des évaluations et des commentaires sur les produits qu'ils ont achetés.<br>
+            <span style="font-weight: bold;">Préconditions :</span> L'acheteur doit être connecté à UniShop et avoir acheté un produit.<br>
+            <span style="font-weight: bold;">Acteurs :</span> Acheteur (principal), Système (secondaire).<br>
+            <span style="font-weight: bold;">Scénario principal :</span><br>
+            1. L'acheteur sélectionne un produit qu'il a acheté.<br>
+            2. L'acheteur clique sur le bouton "évaluer".<br>
+            3. L'acheteur soumet une évaluation et un commentaire.<br>
+            4. Le système enregistre l'évaluation et le commentaire de l'acheteur.<br>
+            <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
+            3a.1. Si l'acheteur a déjà évalué le produit, le système permet à l'acheteur de mettre à jour son évaluation et son commentaire.<br>
+            <span style="font-weight: bold;">Postconditions :</span>
+            L'évaluation et le commentaire de l'acheteur sont enregistrés et visibles par d'autres utilisateurs.<br>
+        </p>
+        <p>
+            <span style="font-weight: bold;">Cas d'utilisation :</span> Gestion du panier d'achat.<br>
+            <span style="font-weight: bold;">But :</span> Permettre aux acheteurs d'ajouter des produits à leur panier d'achat, de les retirer au besoin, et de voir le montant total à payer.<br>
+            <span style="font-weight: bold;">Préconditions :</span> L'acheteur doit être connecté à UniShop.<br>
+            <span style="font-weight: bold;">Acteurs :</span> Acheteur (principal), Système (secondaire).<br>
+            <span style="font-weight: bold;">Scénario principal :</span><br>
+            1. L'acheteur sélectionne un produit.<br>
+            2. L'acheteur clique sur le bouton "ajouter au panier".<br>
+            3. Le système ajoute le produit au panier de l'acheteur.<br>
+            4. L'acheteur peut visualiser le panier avec le montant total à payer.<br>
+            5. L'acheteur peut retirer des produits du panier.<br>
+            <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
+            2a.1. Si le produit est déjà dans le panier, le système met à jour la quantité du produit dans le panier.<br>
+            5a.1. Si l'acheteur retire tous les produits, le panier est vide et le montant total à payer est de zéro.<br>
+            <span style="font-weight: bold;">Postconditions :</span>
+            Le panier de l'acheteur est mis à jour avec les produits sélectionnés et le montant total à payer est affiché.<br>
+        </p>
+        <p>
+            <span style="font-weight: bold;">Cas d'utilisation :</span> Passage d’une commande et Consultation de l’état de la commande.<br>
+            <span style="font-weight: bold;">But :</span> Permettre aux utilisateurs de passer une commande en fournissant des informations de paiement et de livraison, et de consulter l'état de leur commande.<br>
+            <span style="font-weight: bold;">Préconditions :</span> L'utilisateur doit être connecté à UniShop et avoir des produits dans son panier.<br>
+            <span style="font-weight: bold;">Acteurs :</span> Utilisateur (principal), Système (secondaire).<br>
+            <span style="font-weight: bold;">Scénario principal :</span><br>
+            1. L'utilisateur vérifie sa sélection de produits.<br>
+            2. L'utilisateur fournit des informations de paiement et de livraison.<br>
+            3. L'utilisateur passe la commande.<br>
+            4. Le système génère un identifiant unique pour la commande.<br>
+            5. L'utilisateur consulte l'état de sa commande.<br>
+            <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
+            2a.1. Si l'utilisateur a déjà une adresse de livraison enregistrée, le système utilise cette adresse.<br>
+            <span style="font-weight: bold;">Postconditions :</span>
+            La commande de l'utilisateur est traitée et l'état de la commande est mis à jour.<br>
+        </p>
+        <p>
+            <span style="font-weight: bold;">Cas d'utilisation :</span> Gestion des commandes post-achat.<br>
+            <span style="font-weight: bold;">But :</span> Permettre aux acheteurs de gérer leurs commandes après l'achat, y compris le retour et l'échange de produits, l'annulation de commandes, la confirmation de la réception des commandes, le signalement de problèmes avec les produits et le suivi des retours ou des échanges.<br>
+            <span style="font-weight: bold;">Préconditions :</span> L'acheteur doit être connecté à UniShop et avoir passé une commande.<br>
+            <span style="font-weight: bold;">Acteurs :</span> Acheteur (principal), Système (secondaire).<br>
+            <span style="font-weight: bold;">Scénario principal :</span><br>
+            1. L'acheteur sélectionne une commande.<br>
+            2. L'acheteur choisit de retourner ou d'échanger un produit, d'annuler la commande, de confirmer la réception de la commande, de signaler un problème avec un produit ou de suivre un retour ou un échange.<br>
+            3. Le système traite la demande de l'acheteur.<br>
+            <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
+            2a.1. Si l'acheteur retourne un produit, le système rembourse le montant du produit retourné au mode de paiement original de l'acheteur.<br>
+            2b.1. Si l'acheteur échange un produit, le système demande à l'acheteur de sélectionner le(s) produit(s) de remplacement et de payer la différence de prix.<br>
+            2c.1. Si l'acheteur annule la commande, le système annule la commande.<br>
+            2d.1. Si l'acheteur confirme la réception de la commande, le système met à jour l'état de la commande à "livré".<br>
+            2e.1. Si l'acheteur signale un problème avec un produit, le système enregistre le problème et informe le revendeur.<br>
+            2f.1. Si l'acheteur suit un retour ou un échange, le système fournit l'état du retour ou de l'échange.<br>
+            <span style="font-weight: bold;">Postconditions :</span>
+            La demande de l'acheteur est traitée et l'état de la commande est mis à jour.<br>
+        </p>
     </div>
     
 </body>
