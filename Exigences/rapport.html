@@ -13,6 +13,79 @@
             <dd>Désigne ceux qui magasinent, achètent et évaluent les produits sur UniShop</dd>
         </dl>
     </div>
-    
+    <div id="cas_utilisation">
+        <h2>Description des cas d'utilisation</h2>
+        <p>
+            <span style="font-weight: bold;">Cas d'utilisation :</span> Affichage des métriques d'activité.<br>
+            <span style="font-weight: bold;">But :</span> Permettre aux acheteurs d'afficher les métriques liées à leurs activités ou les produit sur UniShop.<br>
+            <span style="font-weight: bold;">Préconditions :</span> L'acheteur est connecté à son compte sur UniShop.<br>
+            <span style="font-weight: bold;">Acteurs :</span> Acheteur (principal), Système (secondaire).<br>
+            <span style="font-weight: bold;">Scénario principal :</span><br>
+            1. L'acheteur accède à la page des métriques.<br>
+            2. L'acheteur recherche son nombre de commandes passées, nombre d'articles achetés, « likes » reçus sur ses évaluations.<br>
+            3. L'acheteur recherche le nombre de « likes », la note moyenne et le nombre d'évaluation d'un produit<br>
+            <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
+            2a.1. L'acheteur n'a pas encore d'activité sur UniShop.<br>
+            2a.2. Le système affiche un message précisant qu'il n'y a pas encore de métriques enregistrées sur l'activité de l'acheteur.<br>
+            <span style="font-weight: bold;">Postconditions :</span>
+            La requette de l'acheteur est traitée et les métriques reliées à sa recherche sont mises à jour.<br>
+        </p>
+        <p>
+            <span style="font-weight: bold;">Cas d'utilisation :</span> Recherche de revendeurs.<br>
+            <span style="font-weight: bold;">But :</span> Permettre aux acheteurs de naviguer la listes des revendeurs de produits.<br>
+            <span style="font-weight: bold;">Préconditions :</span> L'acheteur est connecté à son compte sur UniShop.<br>
+            <span style="font-weight: bold;">Acteurs :</span> Acheteur (principal), Système (secondaire).<br>
+            <span style="font-weight: bold;">Scénario principal :</span><br>
+            1. L'acheteur sélectionne les filtres souhaités (nom, adresse et les catégories d'articles vendus).<br>
+            2. L'acheteur applique les filtres.<br>
+            3. Le système affiche les revendeurs correspondant aux critères de filtrage de l'acheteur.<br>
+            <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
+            3a.1. Aucun revendeur ne correspond aux critères de filtrage.<br>
+            3a.2. Le système affiche un message indiquant qu'aucun revendeur n'a été trouvé.<br>
+            <span style="font-weight: bold;">Postconditions :</span>
+            Les revendeurs correspondant aux critères de filtrage de l'acheteur sont affichés.<br>
+        </p>
+        <p>
+            <span style="font-weight: bold;">Cas d'utilisation :</span> Aimer les revendeurs.<br>
+            <span style="font-weight: bold;">But :</span> Permettre aux acheteurs de « liker » les revendeurs pour recevoir des mises à jour.<br>
+            <span style="font-weight: bold;">Préconditions :</span> L'acheteur a trouvé le revendeur suite à une recherche dans la liste des revendeurs.<br>
+            <span style="font-weight: bold;">Acteurs :</span> Acheteur (principal), Système (secondaire).<br>
+            <span style="font-weight: bold;">Scénario principal :</span><br>
+            1. L'acheteur peut « liker » le revendeur.<br>
+            <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
+            1a.1. L'acheteur peut enlever son « like » sur la page du revendeur.<br>
+            <span style="font-weight: bold;">Postconditions :</span>
+            L'acheteur reçoit des mises à jours sur les nouveaux produits mis en ventes ainsi que les promotions du revendeur  « liker ».<br>
+        </p>
+        <p>
+            <span style="font-weight: bold;">Cas d'utilisation :</span> S'inscrire comme revendeur.<br>  <!-- Ajouter les revendeurs au cas #2 (Modification du profil)--> 
+            <span style="font-weight: bold;">But :</span> Permettre à un nouveau revendeur de créer un compte revendeur.<br>
+            <span style="font-weight: bold;">Préconditions :</span> Le revendeur est sur la page d'inscription et il a au minimum un produit à offrir et fournir.<br>
+            <span style="font-weight: bold;">Acteurs :</span> Revendeur (principal), Système (secondaire).<br>
+            <span style="font-weight: bold;">Scénario principal :</span><br>
+            1. Le revendeur accède à la page d'inscription.<br>
+            2. Le revendeur entre ses informations de profil : nom(unique), adresse, adresse courriel, téléphone.<br>
+            3. Le revendeur soumet le formulaire d'inscription.<br>
+            4. Le système valide les informations et crée le nouveau compte.<br>
+            <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
+            4a.1. Les informations fournies ne sont pas valides.<br>
+            4a.2. Le système affiche un message d'erreur et invite le revendeur à corriger les informations.<br>
+            <span style="font-weight: bold;">Postconditions :</span>
+           Un nouveau compte revendeur est créer.<br>
+        </p>
+        <p>
+            <span style="font-weight: bold;">Cas d'utilisation :</span> Offrir un produit<br>
+            <span style="font-weight: bold;">But :</span> Permettre aux revendeurs d'offrir des produits aux acheteurs<br>
+            <span style="font-weight: bold;">Préconditions :</span> Le revendeur a un compte revendeur et il est sur la plateforme d'offre de produit.<br>
+            <span style="font-weight: bold;">Acteurs :</span> Revendeur (principal), Système (secondaire).<br>
+            <span style="font-weight: bold;">Scénario principal :</span><br>
+            1. Le revendeur offre un produit en spécifiant son titre(unique), sa catégorie, sa description, le nom de sa marque, le nom de son modèle, une quantité initiale et son prix (modifiable).<br>
+            2. Le revendeur peut ajotuer des images ou des vidéos à ses produits pour les promouvoirs.<br>
+            <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
+            1a.1. Les informations fournies ne sont pas valides.<br>
+            1a.2. Le système affiche un message d'erreur et invite le revendeur à corriger les informations.<br>
+            <span style="font-weight: bold;">Postconditions :</span>
+            Le produit est affiché et disponible aux acheteurs.<br>
+        </p>
 </body>
 </html>
