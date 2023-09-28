@@ -17,13 +17,13 @@
         <h2>Description des cas d'utilisation</h2>
         <p>
             <span style="font-weight: bold;">Cas d'utilisation :</span> Affichage des métriques d'activité.<br>
-            <span style="font-weight: bold;">But :</span> Permettre aux acheteurs d'afficher les métriques liées à leurs activités ou les produit sur UniShop.<br>
+            <span style="font-weight: bold;">But :</span> Permettre aux acheteurs d'afficher les métriques liées à leurs activités ou aux produit sur UniShop.<br>
             <span style="font-weight: bold;">Préconditions :</span> L'acheteur est connecté à son compte sur UniShop.<br>
             <span style="font-weight: bold;">Acteurs :</span> Acheteur (principal), Système (secondaire).<br>
             <span style="font-weight: bold;">Scénario principal :</span><br>
             1. L'acheteur accède à la page des métriques.<br>
             2. L'acheteur recherche son nombre de commandes passées, nombre d'articles achetés, « likes » reçus sur ses évaluations.<br>
-            3. L'acheteur recherche le nombre de « likes », la note moyenne et le nombre d'évaluation d'un produit<br>
+            3. L'acheteur recherche le nombre de « likes », la note moyenne et le nombre d'évaluation d'un produit.<br>
             <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
             2a.1. L'acheteur n'a pas encore d'activité sur UniShop.<br>
             2a.2. Le système affiche un message précisant qu'il n'y a pas encore de métriques enregistrées sur l'activité de l'acheteur.<br>
@@ -33,7 +33,7 @@
         <p>
             <span style="font-weight: bold;">Cas d'utilisation :</span> Recherche de revendeurs.<br>
             <span style="font-weight: bold;">But :</span> Permettre aux acheteurs de naviguer la listes des revendeurs de produits.<br>
-            <span style="font-weight: bold;">Préconditions :</span> L'acheteur est connecté à son compte sur UniShop.<br>
+            <span style="font-weight: bold;">Préconditions :</span> L'acheteur est connecté à son compte sur UniShop et il est sur la page des revendeurs.<br>
             <span style="font-weight: bold;">Acteurs :</span> Acheteur (principal), Système (secondaire).<br>
             <span style="font-weight: bold;">Scénario principal :</span><br>
             1. L'acheteur sélectionne les filtres souhaités (nom, adresse et les catégories d'articles vendus).<br>
@@ -74,18 +74,81 @@
            Un nouveau compte revendeur est créer.<br>
         </p>
         <p>
-            <span style="font-weight: bold;">Cas d'utilisation :</span> Offrir un produit<br>
-            <span style="font-weight: bold;">But :</span> Permettre aux revendeurs d'offrir des produits aux acheteurs<br>
+            <span style="font-weight: bold;">Cas d'utilisation :</span> Offrir un produit.<br>
+            <span style="font-weight: bold;">But :</span> Permettre aux revendeurs d'offrir des produits aux acheteurs.<br>
             <span style="font-weight: bold;">Préconditions :</span> Le revendeur a un compte revendeur et il est sur la plateforme d'offre de produit.<br>
             <span style="font-weight: bold;">Acteurs :</span> Revendeur (principal), Système (secondaire).<br>
             <span style="font-weight: bold;">Scénario principal :</span><br>
             1. Le revendeur offre un produit en spécifiant son titre(unique), sa catégorie, sa description, le nom de sa marque, le nom de son modèle, une quantité initiale et son prix (modifiable).<br>
-            2. Le revendeur peut ajotuer des images ou des vidéos à ses produits pour les promouvoirs.<br>
+            2. Le revendeur peut ajouter des images ou des vidéos à ses produits pour les promouvoirs.<br>
             <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
             1a.1. Les informations fournies ne sont pas valides.<br>
             1a.2. Le système affiche un message d'erreur et invite le revendeur à corriger les informations.<br>
             <span style="font-weight: bold;">Postconditions :</span>
             Le produit est affiché et disponible aux acheteurs.<br>
+        </p>
+        <p>
+            <span style="font-weight: bold;">Cas d'utilisation :</span> Changer l'état d'une commande.<br>
+            <span style="font-weight: bold;">But :</span> Permettre aux revendeurs de changer l'état de la commande pour que les acheteurs puissent suivre la livraison.<br>
+            <span style="font-weight: bold;">Préconditions :</span> Une commande d'un acheteur est à l'état « en production ».<br>
+            <span style="font-weight: bold;">Acteurs :</span> Revendeur(principal), Acheteur(secondaire), Système (secondaire).<br>
+            <span style="font-weight: bold;">Scénario principal :</span><br>
+            1. Le revendeur accède à la page de la commande.<br>
+            2. Le revendeur change l'état de la commande à « en livraison » quand il est prêt à livrer la commande.<br>
+            3. Quand la commande est « en livraison », le revendeur fourni le nom de la compagnie d'expédition et le numéro de suivi du produit à l'acheteur.<br>
+	        4. Le revendeur change l'état à « livré » quand l'acheteur confirme la réception du produit.<br>
+            <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
+            2a.1. Le revendeur n'est incapable de livrer le produit et annule la commande.<br>
+            4a.1. L'acheteur ne reçoit pas la commande ou ne confirme pas sa réception, l'état de la commande demeure « en livraison ».<br>
+            <span style="font-weight: bold;">Postconditions :</span>
+            L'acheteur a reçu le produit du revendeur.<br>
+        </p>
+  <p>
+            <span style="font-weight: bold;">Cas d'utilisation :</span> Afficher les métriques d'activités (Revendeur).<br>
+            <span style="font-weight: bold;">But :</span> Permettre aux revendeurs d'afficher les métriques liées à leurs activités sur UniShop.<br>
+            <span style="font-weight: bold;">Préconditions :</span> Le revendeur est connecté à son compte sur UniShop.<br>
+            <span style="font-weight: bold;">Acteurs :</span> Revendeur(principal), Système (secondaire).<br>
+	    <span style="font-weight: bold;">Scénario principal :</span><br>
+            1. Le revendeur accède à la page des métriques.<br>
+            2. La page affiche les métrique de revenu, nombres d'article mises en vente et nombre d'article vendu.<br>
+            <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
+            2a.1. Le revendeur n'a pas encore d'activité sur UniShop.<br>
+            2a.2. Le système affiche un message précisant qu'il n'y a pas encore de métriques enregistrées sur l'activité du revendeur.<br>
+            <span style="font-weight: bold;">Postconditions :</span>
+            La requette du revendeur est traitée et les métriques reliées à sa recherche sont mises à jour.<br>
+        </p>
+  <p>
+            <span style="font-weight: bold;">Cas d'utilisation :</span>Gestion de problèmes.<br>
+            <span style="font-weight: bold;">But :</span> Permettre aux acheteurs de signaler un problème avec un produit acheté et aux revendeurs de prendre action.<br>
+            <span style="font-weight: bold;">Préconditions :</span> L'acheteur a acheté un produit, la reçu et a rencontré un problème lié à ce produit.<br>
+            <span style="font-weight: bold;">Acteurs :</span> Revendeur(principal), Acheteur(secondaire), Système (secondaire).<br>
+            <span style="font-weight: bold;">Scénario principal :</span><br>
+	        1. L'acheteur a signalé un problème avec son produit.<br>
+            2. Le revendeur lui propose une solution (réparation du produit, réexpedition d'un produit de remplacement).<br>
+	        3. L'acheteur accepte la solution.<br>
+            <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
+            1a.1. Il n'y pas de problème réel avec le produit.<br>
+	        1a.2. Après une analyse, le revendeur refuse la requête signalée par l'acheteur.<br>
+            3a.1. L'acheteur refuse la solution proposée par le revendeur.<br>
+	        3a.2. Le revendeur lui propose une option alternative.<br>
+            <span style="font-weight: bold;">Postconditions :</span>
+	        Le revendeur prend action selon la solution acceptée.
+            <br>
+        </p>
+  <p>
+            <span style="font-weight: bold;">Cas d'utilisation :</span>Confirmation de la réception d’un retour.<br>
+            <span style="font-weight: bold;">But :</span> Permettre aux revendeurs de mettre à jour l'état d'une commande retournée.<br>
+            <span style="font-weight: bold;">Préconditions :</span> L'acheteur a acheté un produit, la reçu et la retourné à l'intérieur des 30 premiers jours après sa réception.<br>
+            <span style="font-weight: bold;">Acteurs :</span> Revendeur(principal), Système (secondaire).<br>
+            <span style="font-weight: bold;">Scénario principal :</span><br>
+	        1. Le retour d'une commande arrive à l'entrepôt.<br>
+            2. Le revendeur met à jour l'état de la commande à « livré ».<br>
+            <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
+            1a.1. Le retour de la commande n'arrive pas à l'entrepôt.<br>
+	        1a.2. L'état de la commande ne change pas.<br>
+            <span style="font-weight: bold;">Postconditions :</span>
+	        Le retour est complété.
+            <br>
         </p>
 </body>
 </html>
