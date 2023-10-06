@@ -126,12 +126,14 @@
             <span style="font-weight: bold;">Scénario principal :</span><br>
 	        1. L'acheteur a signalé un problème avec son produit.<br>
             2. Le revendeur lui propose une solution (réparation du produit, réexpedition d'un produit de remplacement).<br>
-	        3. L'acheteur accepte la solution.<br>
+	        3. L'acheteur accepte la solution et l'expédie à l'intérieur de 30 jours suite à la signalisation du problème.<br>
             <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
             1a.1. Il n'y pas de problème réel avec le produit.<br>
 	        1a.2. Après une analyse, le revendeur refuse la requête signalée par l'acheteur.<br>
             3a.1. L'acheteur refuse la solution proposée par le revendeur.<br>
 	        3a.2. Le revendeur lui propose une option alternative.<br>
+            3b.1. L'acheteur n'expédie pas le produit à l'intérieur de 30 jours suite à la demande.<br>
+            3b.2. La demande est annulée.<br>
             <span style="font-weight: bold;">Postconditions :</span>
 	        Le revendeur prend action selon la solution acceptée.
             <br>
@@ -139,13 +141,13 @@
   <p>
             <span style="font-weight: bold;">Cas d'utilisation :</span>Confirmation de la réception d’un retour.<br>
             <span style="font-weight: bold;">But :</span> Permettre aux revendeurs de mettre à jour l'état d'une commande retournée.<br>
-            <span style="font-weight: bold;">Préconditions :</span> L'acheteur a acheté un produit, la reçu et la retourné à l'intérieur des 30 premiers jours après sa réception.<br>
+            <span style="font-weight: bold;">Préconditions :</span> L'acheteur a acheté un produit, la reçu et la retourné à l'intérieur de 30 jours après avoir signalé un problème.<br>
             <span style="font-weight: bold;">Acteurs :</span> Revendeur(principal), Système (secondaire).<br>
             <span style="font-weight: bold;">Scénario principal :</span><br>
 	        1. Le retour d'une commande arrive à l'entrepôt.<br>
             2. Le revendeur met à jour l'état de la commande à « livré ».<br>
             <span style="font-weight: bold;">Scénarios alternatifs :</span><br>
-            1a.1. Le retour de la commande n'arrive pas à l'entrepôt.<br>
+            1a.1. Le retour de la commande n'arrive pas à l'entrepôt à l'intérieur des 30 jours suite à la demande de retour.<br>
 	        1a.2. L'état de la commande ne change pas.<br>
             <span style="font-weight: bold;">Postconditions :</span>
 	        Le retour est complété.
