@@ -11,4 +11,8 @@ public class Acheteur {
         this.adresse = adresse;
         this.telephone = telephone;
     }
+
+    public Acheteur(){
+
+    }
 }
