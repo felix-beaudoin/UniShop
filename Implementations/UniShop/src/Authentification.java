@@ -11,7 +11,6 @@ public class Authentification {
     public void accueil() {
         Acheteur a = new Acheteur();
         Revendeur r = new Revendeur();
-        boolean accueilLoop = true;
 
         System.out.println("Sélectionnez l'option désirée:");
         System.out.println("1. S'inscrire en tant qu'acheteur");
