@@ -3,10 +3,7 @@ public class Main {
         System.out.println("Bienvenue sur UniShop, votre plateforme d'achats et de reventes en ligne pour étudiants.");
 
         Authentification auth = new Authentification();
-        PanierAchat panier = new PanierAchat();
-        panier.panierAchat(); /** TEST, lorsque connecté dans le menu Acheteur*/
-        /**auth.accueil();*/
-
+        auth.accueil();
     }
 
 
