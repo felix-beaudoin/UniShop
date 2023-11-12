@@ -1,14 +1,19 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
 public class PanierAchat {
-    private int total = 0;
-    private int point = 0;
+    Acheteur acheteur;
+    Produit[] catalogue;
+    private int total;
+    private int point;
 
-    List<String> panier = new ArrayList<String>();
+    List<Produit> panier = new ArrayList<Produit>();
 
-
+    PanierAchat(Acheteur a){
+        acheteur = a;
+    }
     public void setTotal(int newTotal) {
         this.total = newTotal;
     }
@@ -26,7 +31,7 @@ public class PanierAchat {
     }
 
     public void panierAchat() {
-
+        Scanner sc = new Scanner(System.in);
         boolean repeat = true;
         while (repeat) {
 
@@ -35,10 +40,9 @@ public class PanierAchat {
             System.out.println("1. Ajouter produit(s)");
             System.out.println("2. Retirer produit(s)");
             System.out.println("3. Voir le panier");
-            System.out.println("Vous avez un total de " + getTotal() + " à payer, ce qui vous donnera " + getPoint() + " point(s).");
+            System.out.println("Vous avez un total de " + getTotal()/100 + "$ à payer, ce qui vous donnera " + getPoint() + " point(s).");
             System.out.println("0. Retour");
 
-            Scanner sc = new Scanner(System.in);
             String input = sc.nextLine();
 
             try {
@@ -47,16 +51,13 @@ public class PanierAchat {
 
                 switch (option) {
                     case 1:
-                        ajouterProduit();
-                        repeat = false;
+                        ajouterProduit();break;
                     case 2:
-                        retirerProduit();
-                        repeat = false;
+                        retirerProduit();break;
                     case 3:
-                        voirPanier();
-                        repeat = false;
-                    case 0:/**accueil();*/
-                        repeat = false;
+                        voirPanier();break;
+                    case 0:
+                        repeat = false;break;
                     default:
                         System.out.println("Option non comprise. Veuillez réessayer.");
                 }
@@ -68,32 +69,40 @@ public class PanierAchat {
     }
 
     private void ajouterProduit() {
-        System.out.println("Retrouvez le produit à rajouter");
-        panier.add("tests1"); /** produits temporaires pour tester*/
-        panier.add("tests2");
-        panier.add("tests3");
-        panier.add("tests4");
-        panier.add("tests5");
-        setTotal(500);
-        setPoint(25);
+        Scanner sc = new Scanner(System.in);
+        catalogue = fetchCatalogue();
+        System.out.println("Quel produit voulez vous ajouter au panier?");
+        for(int i = 0; i < catalogue.length; i++){
+            Produit p = catalogue[i];
+            System.out.println(i + ". " + p.nom + " (" + p.description + ")" + " ,prix: " + p.prix/100.0 + "$ ,point(s): " + p.pointsBonus );
+        }
+        int input = sc.nextInt();
+        Produit p = catalogue[input];
+        setTotal(getTotal() + p.prix);
+        setPoint(getPoint() + p.pointsBonus);
+        System.out.println("Vous avez ajouté " + p.nom  + " .");
+        panier.add(p);
         panierAchat();
-        /** rechercheProduit() cas à implémenter */
+
     }
 
     private void retirerProduit() {
+        Scanner sc = new Scanner(System.in);
         System.out.println("Quel produit voulez-vous retirer?");
         if (panier.size() == 0) {
             System.out.println("Le panier est vide");
             panierAchat();
         } else {
             for (int i = 0; i < panier.size(); i++) {
-                System.out.println(i + ". " + panier.get(i));
+                System.out.println(i + ". " + panier.get(i).nom);
             }
-            Scanner sc = new Scanner(System.in);
+
             int input = sc.nextInt();
-            String retirer = panier.get(input);
+            Produit p = panier.get(input);
+            setTotal(getTotal() - p.prix);
+            setPoint(getPoint() - p.pointsBonus);
             panier.remove(input);
-            System.out.println("Vous avez retiré " + retirer + " .");
+            System.out.println("Vous avez retiré " + p.nom + " .");
             panierAchat();
         }
     }
@@ -105,10 +114,21 @@ public class PanierAchat {
         } else {
             System.out.println("Le panier contient:");
             for (int i = 0; i < panier.size(); i++) {
-                System.out.println(panier.get(i));
+                System.out.println(i+1 + ". " + panier.get(i));
             }
-            System.out.println("Vous avez un total de " + getTotal() + " à payer, ce qui vous donnera " + getPoint() + " point(s).");
+            System.out.println("Vous avez un total de " + getTotal()/100.0 + "$ à payer, ce qui vous donnera " + getPoint() + " point(s).");
             panierAchat();
         }
+    }
+    private Produit[] fetchCatalogue(){ //pris de AfficherCatalogue pour tester méthode d'ajout.
+        //verifier la base de donnees, mais en attendant on en invente
+
+        Revendeur revendeur = new Revendeur();
+        Produit p1 = new Produit(TypeProduit.LIVRES_ET_MANUELS, 1, 5800, "Calculus 1", "Livre de calcul intégral Stewart 2019", revendeur, 10, 5);
+        Produit p2 = new Produit(TypeProduit.RESSOURCES_APPRENTISSAGE, 2, 3000, "Physique 3 cheneliere", "abonnement à la plateforme en ligne de cheneliere pour le cours de physique moderne", revendeur, 10, 5);
+        Produit p3 = new Produit(TypeProduit.PAPETERIES, 8, 3, "feuille a4", "feuille de papier seule, de format a4.", revendeur, 10, 5);
+        Produit p4 = new Produit(TypeProduit.MATERIEL_INFORMATIQUE, 4, 20000, "Razer Death Adder", "Souris de bureau pour étudier", revendeur, 10, 5);
+
+        return new Produit[]{p1, p2, p3, p4};
     }
 }
