@@ -40,7 +40,7 @@ public class PanierAchat {
             System.out.println("1. Ajouter produit(s)");
             System.out.println("2. Retirer produit(s)");
             System.out.println("3. Voir le panier");
-            System.out.println("Vous avez un total de " + getTotal()/100 + "$ à payer, ce qui vous donnera " + getPoint() + " point(s).");
+            System.out.println("Vous avez un total de " + getTotal()/100.0 + "$ à payer, ce qui vous donnera " + getPoint() + " point(s).");
             System.out.println("0. Retour");
 
             String input = sc.nextLine();
@@ -110,15 +110,13 @@ public class PanierAchat {
     private void voirPanier() {
         if (panier.size() == 0) {
             System.out.println("Le panier est vide");
-            panierAchat();
         } else {
             System.out.println("Le panier contient:");
             for (int i = 0; i < panier.size(); i++) {
-                System.out.println(i+1 + ". " + panier.get(i));
+                System.out.println(i+1 + ". " + panier.get(i).nom);
             }
-            System.out.println("Vous avez un total de " + getTotal()/100.0 + "$ à payer, ce qui vous donnera " + getPoint() + " point(s).");
-            panierAchat();
         }
+        panierAchat();
     }
     private Produit[] fetchCatalogue(){ //pris de AfficherCatalogue pour tester méthode d'ajout.
         //verifier la base de donnees, mais en attendant on en invente
