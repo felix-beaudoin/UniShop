@@ -5,6 +5,7 @@ public class Main {
         System.out.println("Bienvenue sur UniShop, votre plateforme d'achats et de reventes en ligne pour étudiants.");
 
         Authentification auth = new Authentification();
+
         Acheteur a = auth.accueil();
 
         System.out.println("Que voulez-vous faire?");
@@ -29,11 +30,5 @@ public class Main {
                 System.out.println("Choix non comprix, que voulez-vous faire?");
             }
         }
-
-
-
-
     }
-
-
 }
