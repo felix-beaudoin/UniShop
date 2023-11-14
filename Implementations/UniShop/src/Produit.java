@@ -6,9 +6,10 @@ public class Produit {
     int prix, nbLikes, quantite, pointsBonus; //prix en cents, pour éviter les nombres flottants
     String nom, categorie;
     String description;
+    String[] liensMedia;
     Revendeur Revendeur;
 
-    public Produit(TypeProduit type, int id, int prix, String nom, String description, Revendeur revendeur, int quantite, int pointsBonus) {
+    public Produit(TypeProduit type, int id, int prix, String nom, String description, Revendeur revendeur, int quantite, int pointsBonus, liensMedia) {
         this.id = id;
         this.type = type;
         this.prix = prix;
@@ -17,6 +18,7 @@ public class Produit {
         this.Revendeur = revendeur;
         this.quantite = quantite;
         this.pointsBonus = pointsBonus;
+        this.liensMedia = liensMedia;
     }
 
     public Produit(){}
