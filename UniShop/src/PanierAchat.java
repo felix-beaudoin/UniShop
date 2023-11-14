@@ -1,19 +1,21 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-public class PanierAchat {
+public class PanierAchat extends Authentification {
     Acheteur acheteur;
     Produit[] catalogue;
-    private int total;
-    private int point;
-
     List<Produit> panier = new ArrayList<Produit>();
 
     PanierAchat(Acheteur a){
         acheteur = a;
     }
+    private int total;
+    private int point;
+
+
     public void setTotal(int newTotal) {
         this.total = newTotal;
     }
@@ -51,13 +53,13 @@ public class PanierAchat {
 
                 switch (option) {
                     case 1:
-                        ajouterProduit();break;
+                        ajouterProduit(); repeat = false; break;
                     case 2:
-                        retirerProduit();break;
+                        retirerProduit(); repeat = false; break;
                     case 3:
-                        voirPanier();break;
+                        voirPanier(); repeat = false; break;
                     case 0:
-                        repeat = false;break;
+                        connexionAcheteur(acheteur);repeat = false;  break;
                     default:
                         System.out.println("Option non comprise. Veuillez réessayer.");
                 }
@@ -80,8 +82,11 @@ public class PanierAchat {
         Produit p = catalogue[input];
         setTotal(getTotal() + p.prix);
         setPoint(getPoint() + p.pointsBonus);
-        System.out.println("Vous avez ajouté " + p.nom  + " .");
+        System.out.println("======================================");
+        System.out.println("Vous avez ajouté " + p.nom);
+        System.out.println("======================================");
         panier.add(p);
+        System.out.println();
         panierAchat();
 
     }
@@ -102,7 +107,10 @@ public class PanierAchat {
             setTotal(getTotal() - p.prix);
             setPoint(getPoint() - p.pointsBonus);
             panier.remove(input);
-            System.out.println("Vous avez retiré " + p.nom + " .");
+            System.out.println("======================================");
+            System.out.println("Vous avez retiré " + p.nom);
+            System.out.println("======================================");
+            System.out.println();
             panierAchat();
         }
     }
@@ -112,10 +120,13 @@ public class PanierAchat {
             System.out.println("Le panier est vide");
         } else {
             System.out.println("Le panier contient:");
+            System.out.println("======================================");
             for (int i = 0; i < panier.size(); i++) {
                 System.out.println(i+1 + ". " + panier.get(i).nom);
             }
+            System.out.println("======================================");
         }
+        System.out.println();
         panierAchat();
     }
     private Produit[] fetchCatalogue(){ //pris de AfficherCatalogue pour tester méthode d'ajout.
