@@ -240,8 +240,8 @@ public class Authentification {
 
             // Le nombre total de points (base + bonus) ne peut pas dépasser 20 points par dollar
             if (pointsBase + pointsBonus > 20 * prix) {
-                System.out.println("Le nombre total de points (base + bonus) ne peut pas dépasser 20 points par dollar.
-                    Veuillez entrer à nouveau le nombre de points bonus.");
+                System.out.println("Le nombre total de points (base + bonus) ne peut pas dépasser 20 points par dollar." +
+                    "Veuillez entrer à nouveau le nombre de points bonus.");
             } else {
                 pointsBonusValides = true;
             }
@@ -277,7 +277,7 @@ public class Authentification {
         in.nextLine();
 
         produitId = produitId+1;
-        Produit produit = new Produit(type, id, prix, titre, description, revendeur, quantite, pointsBonus, liensMedia);
+        Produit produit = new Produit(type, produitId, prix, titre, description, revendeur, quantite, pointsBonus, liensMedia);
 
         revendeur.listeProduit.add(produit);
 

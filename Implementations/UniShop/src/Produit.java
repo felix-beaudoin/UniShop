@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.UUID;
 
 
@@ -10,7 +11,8 @@ public class Produit {
     String description;
     String[] liensMedia;
     Revendeur Revendeur;
-    HashMap<Acheteur, String[]> commentaires;
+
+    LinkedList<Commentaire> commentaires;
 
 
     public Produit(TypeProduit type, int id, int prix, String nom, String description, Revendeur revendeur, int quantite, int pointsBonus, liensMedia) {
@@ -36,5 +38,7 @@ public class Produit {
         System.out.println("Revendeur: " + Revendeur.nom);
         System.out.println("Quantite: " + quantite);
         System.out.println("Points Bonus: " + pointsBonus);
+        System.out.println("Commentaires:");
+
     }
 }
