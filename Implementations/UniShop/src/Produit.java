@@ -1,4 +1,6 @@
+import java.util.HashMap;
 import java.util.UUID;
+
 
 public class Produit {
     int id;
@@ -8,6 +10,8 @@ public class Produit {
     String description;
     String[] liensMedia;
     Revendeur Revendeur;
+    HashMap<Acheteur, String[]> commentaires;
+
 
     public Produit(TypeProduit type, int id, int prix, String nom, String description, Revendeur revendeur, int quantite, int pointsBonus, liensMedia) {
         this.id = id;
