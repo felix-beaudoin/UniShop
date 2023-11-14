@@ -42,15 +42,18 @@ public class Authentification {
         }
     }
 
-    private void connexionAcheteur(Acheteur acheteur) {
+    public void connexionAcheteur(Acheteur acheteur) {
         if (acheteur.pseudo == null){
             acheteur = new Acheteur("Doe", "John","John123","Johndoe@email.com",
                     "3150 rue Jean-Brillant", 1234567890);
+
         }
         System.out.println("Vous êtes connecté en tant qu'acheteur: " + acheteur.pseudo);
         System.out.println("Sélectionnez l'option désirée:");
         System.out.println("1. Afficher le catalogue");
         System.out.println("2. Afficher le panier d'achat");
+        System.out.println("3. Passer une commande");
+        System.out.println("4. Gestion de commandes");
         System.out.println("0. Quitter");
 
         while (running) {
@@ -65,6 +68,10 @@ public class Authentification {
                         Catalogue(acheteur); break;
                     case 2:
                         Panier(acheteur); break;
+                    case 3:
+                        Commande(acheteur); break;
+                    case 4:
+                        Gestion(acheteur); break;
                     case 0:
                         running = false; break;
                     default:
@@ -210,6 +217,14 @@ public class Authentification {
     private void Panier(Acheteur a){
         PanierAchat panier = new PanierAchat(a);
         panier.panierAchat();
+    }
+    private void Commande(Acheteur a){
+        PasserCommande commande = new PasserCommande(a);
+        commande.passerCommande();
+    }
+    private void Gestion(Acheteur a){
+        GestionCommande gestion = new GestionCommande(a);
+        gestion.menu();
     }
     private void OffrirProduit(Revendeur revendeur){
         System.out.println("======================================");
