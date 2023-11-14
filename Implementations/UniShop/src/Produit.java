@@ -15,7 +15,7 @@ public class Produit {
     LinkedList<Commentaire> commentaires;
 
 
-    public Produit(TypeProduit type, int id, int prix, String nom, String description, Revendeur revendeur, int quantite, int pointsBonus, liensMedia) {
+    public Produit(TypeProduit type, int id, int prix, String nom, String description, Revendeur revendeur, int quantite, int pointsBonus, String[] liensMedia) {
         this.id = id;
         this.type = type;
         this.prix = prix;
