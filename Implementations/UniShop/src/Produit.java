@@ -1,4 +1,7 @@
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.UUID;
+
 
 public class Produit {
     int id;
@@ -6,9 +9,13 @@ public class Produit {
     int prix, nbLikes, quantite, pointsBonus; //prix en cents, pour éviter les nombres flottants
     String nom, categorie;
     String description;
+    String[] liensMedia;
     Revendeur Revendeur;
 
-    public Produit(TypeProduit type, int id, int prix, String nom, String description, Revendeur revendeur, int quantite, int pointsBonus) {
+    LinkedList<Commentaire> commentaires;
+
+
+    public Produit(TypeProduit type, int id, int prix, String nom, String description, Revendeur revendeur, int quantite, int pointsBonus, liensMedia) {
         this.id = id;
         this.type = type;
         this.prix = prix;
@@ -17,6 +24,7 @@ public class Produit {
         this.Revendeur = revendeur;
         this.quantite = quantite;
         this.pointsBonus = pointsBonus;
+        this.liensMedia = liensMedia;
     }
 
     public Produit(){}
@@ -30,5 +38,7 @@ public class Produit {
         System.out.println("Revendeur: " + Revendeur.nom);
         System.out.println("Quantite: " + quantite);
         System.out.println("Points Bonus: " + pointsBonus);
+        System.out.println("Commentaires:");
+
     }
 }

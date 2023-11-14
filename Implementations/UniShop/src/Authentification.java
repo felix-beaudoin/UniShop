@@ -7,11 +7,11 @@ import java.util.regex.Pattern;
 public class Authentification {
     private final Scanner in = new Scanner(System.in);
     private boolean running = true;
+    private int produitId = 0;
 
     public void accueil() {
         Acheteur a = new Acheteur();
         Revendeur r = new Revendeur();
-        boolean accueilLoop = true;
 
         System.out.println("Sélectionnez l'option désirée:");
         System.out.println("1. S'inscrire en tant qu'acheteur");
@@ -224,8 +224,37 @@ public class Authentification {
         System.out.println("Entrez le prix du produit:");
         int prix = in.nextInt();
 
-        System.out.println("Entrez le nombre de points bonus (optionnel):");
-        int pointsBonus = in.nextInt();
+        boolean pointsBonusValides = false;
+        int pointsBonus = 0;
+
+        while (!pointsBonusValides) {
+            System.out.println("Entrez le nombre de points bonus (optionnel) :");
+            pointsBonus = in.nextInt();
+
+            int pointsBase = prix;
+
+            // Arrondir au dollar inférieur si le prix n'est pas un nombre entier
+            if (prix % 1 != 0) {
+                pointsBase = (int) Math.floor(prix);
+            }
+
+            // Le nombre total de points (base + bonus) ne peut pas dépasser 20 points par dollar
+            if (pointsBase + pointsBonus > 20 * prix) {
+                System.out.println("Le nombre total de points (base + bonus) ne peut pas dépasser 20 points par dollar." +
+                    "Veuillez entrer à nouveau le nombre de points bonus.");
+            } else {
+                pointsBonusValides = true;
+            }
+        }
+
+        System.out.println("Voulez-vous ajouter des images et des vidéos ? (O/N) :");
+        String reponse = in.nextLine();
+        String[] liensMedia = null;
+        if (reponse.equalsIgnoreCase("O")) {
+            System.out.println("Entrez les liens vers les images et les vidéos (séparés par des virgules) :");
+            String mediaLinks = in.nextLine();
+            liensMedia = mediaLinks.split(",");
+        }
 
         System.out.println("Entrez le type du produit:");
         System.out.println("1. LIVRES_ET_MANUELS");
@@ -246,11 +275,13 @@ public class Authentification {
                 return;
         }
         in.nextLine();
-        Produit produit = new Produit(type, 1, prix, titre, description, revendeur, quantite, pointsBonus);
+
+        produitId = produitId+1;
+        Produit produit = new Produit(type, produitId, prix, titre, description, revendeur, quantite, pointsBonus, liensMedia);
 
         revendeur.listeProduit.add(produit);
 
-        System.out.println("Produit offert avec succès!");
+        System.out.println("Produit offert avec succès! L'identifiant unique du produit est " + produitId);
 
         System.out.println();
         System.out.println("Appuyez sur n'importe quelle touche pour revenir au menu revendeur.");
@@ -293,9 +324,9 @@ public class Authentification {
         System.out.println("Confirmer la reception d'un retour");
         System.out.println("======================================");
         System.out.println("Prototype: (Entrez 1 pour tester ID valide.)");
-
+        String[] liensMedia = null;
         Produit produit = new Produit(TypeProduit.LIVRES_ET_MANUELS, 1, 1000, "Livre",
-                "Un livre intéressant", revendeur, 10, 5);
+                "Un livre intéressant", revendeur, 10, 5, liensMedia);
         Retour retourMock = new Retour(produit, 1);
 
         System.out.println("Entrez l'ID du retour:");
