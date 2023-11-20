@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -5,7 +6,6 @@ public class GestionCommande extends Authentification {
     Acheteur acheteur;
     Produit[] catalogue;
     String[] liensMedia;
-    final Scanner sc = new Scanner(System.in);
     private int prixTotal;
 
     GestionCommande(Acheteur a){
@@ -20,6 +20,7 @@ public class GestionCommande extends Authentification {
     }
 
     public void menu(){
+        Scanner sc = new Scanner(System.in);
         catalogue = fetchCatalogue();
         boolean repeat = true;
         while (repeat) {
@@ -54,11 +55,11 @@ public class GestionCommande extends Authentification {
                     case 0:
                         repeat=false;   connexionAcheteur(acheteur);break;
                     default:
-                        System.out.println("Option non comprise. Veuillez réessayer.");
+                        System.out.println("!!!Option invalide. Veuillez entrer un nombre entier entre 0 et 4!!!");
                 }
 
             } catch (NumberFormatException nfe) {
-                System.out.println("Option non comprise. Veuillez réessayer.");
+                System.out.println("!!!Entrée invalide. Veuillez entrer un nombre entier!!!");
             }
         }
     }
@@ -72,76 +73,96 @@ public class GestionCommande extends Authentification {
 
     }
     public void echangeCommande(String code,Produit[] panier){
-        System.out.println("Quel produit(s) voulez-vous échanger?");
-        System.out.println("======================================");
-        for (int i = 0; i < panier.length; i++) {
-            System.out.println(i + ". " + panier[i].nom + " (" + panier[i].description + "), " + panier[i].prix/100.0 + "$.");
+        Scanner sc = new Scanner(System.in);
+        try {
+            System.out.println("Quel produit(s) voulez-vous échanger?");
+            System.out.println("======================================");
+            for (int i = 0; i < panier.length; i++) {
+                System.out.println(i + ". " + panier[i].nom + " (" + panier[i].description + "), " + panier[i].prix / 100.0 + "$.");
+            }
+            System.out.println("======================================");
+            int input = sc.nextInt();
+            Produit produitE = panier[input];
+            UUID uuid = UUID.randomUUID();
+            System.out.println("Quel produit(s) voulez-vous recevoir en échange?");
+            System.out.println("======================================");
+            for (int i = 0; i < panier.length; i++) {
+                System.out.println(i + ". " + panier[i].nom + " (" + panier[i].description + "), " + panier[i].prix / 100.0 + "$.");
+            }
+            System.out.println("======================================");
+            int in = sc.nextInt();
+            Produit produitR = panier[in];
+            int difference = produitE.prix - produitR.prix;
+            if (difference < 0) {
+                System.out.println("======================================");
+                System.out.println("Vous devez une différence de " + (-difference / 100.0) + "$");
+                System.out.println("Suivez l'état de la livraison avec le code suivant: " + uuid);
+                System.out.println("Retournez le produit à échanger à l'address suivante: 3200, rue Jean-Brillant ");
+                System.out.println("La demande sera annulée après 30 jours si le produit n'est pas reçu, merci.");
+                System.out.println("======================================");
+                menu();
+            } else if (difference > 0) {
+                System.out.println("======================================");
+                System.out.println("Un montant de " + prixTotal + " a été remboursé à votre carte!");
+                System.out.println("Suivez l'état de la livraison avec le code suivant: " + uuid);
+                System.out.println("Retournez le produit à échanger à l'address suivante: 3200, rue Jean-Brillant ");
+                System.out.println("La demande sera annulée après 30 jours si le produit n'est pas reçu, merci.");
+                System.out.println("======================================");
+                menu();
+            } else {
+                System.out.println("======================================");
+                System.out.println("Vous n'avez pas de différence à payer.");
+                System.out.println("Suivez l'état de la livraison avec le code suivant: " + uuid);
+                System.out.println("Retournez le produit à échanger à l'address suivante: 3200, rue Jean-Brillant ");
+                System.out.println("La demande sera annulée après 30 jours si le produit n'est pas reçu, merci.");
+                System.out.println("======================================");
+                menu();
+            }
         }
-        System.out.println("======================================");
-        int input = sc.nextInt();
-        Produit produitE = panier[input];
-        UUID uuid = UUID.randomUUID();
-        System.out.println("Quel produit(s) voulez-vous recevoir en échange?");
-        System.out.println("======================================");
-        for (int i = 0; i < panier.length; i++) {
-            System.out.println(i + ". " + panier[i].nom + " (" + panier[i].description + "), " + panier[i].prix/100.0 + "$.");
+        catch (InputMismatchException ime) {
+            System.out.println("!!!Entrée invalide. Veuillez entrer un nombre entier!!!");
+            sc.nextLine();
+            echangeCommande(code, panier);
+        }catch (ArrayIndexOutOfBoundsException aioobe) {
+            System.out.println("!!!Indice invalide. Veuillez choisir un indice valide!!!");
+            echangeCommande(code, panier);
         }
-        System.out.println("======================================");
-        int in = sc.nextInt();
-        Produit produitR = panier[in];
-        int difference = produitE.prix - produitR.prix;
-        if(difference < 0){
-            System.out.println("======================================");
-            System.out.println("Vous devez une différence de " + (-difference/100.0) + "$");
-            System.out.println("Suivez l'état de la livraison avec le code suivant: " + uuid );
-            System.out.println("Retournez le produit à échanger à l'address suivante: 3200, rue Jean-Brillant ");
-            System.out.println("La demande sera annulée après 30 jours si le produit n'est pas reçu, merci.");
-            System.out.println("======================================");
-            menu();
-        }
-        else if(difference > 0){
-            System.out.println("======================================");
-            System.out.println("Un montant de " + prixTotal + " a été remboursé à votre carte!");
-            System.out.println("Suivez l'état de la livraison avec le code suivant: " + uuid );
-            System.out.println("Retournez le produit à échanger à l'address suivante: 3200, rue Jean-Brillant ");
-            System.out.println("La demande sera annulée après 30 jours si le produit n'est pas reçu, merci.");
-            System.out.println("======================================");
-            menu();
-        }
-        else{
-            System.out.println("======================================");
-            System.out.println("Vous n'avez pas de différence à payer.");
-            System.out.println("Suivez l'état de la livraison avec le code suivant: " + uuid );
-            System.out.println("Retournez le produit à échanger à l'address suivante: 3200, rue Jean-Brillant ");
-            System.out.println("La demande sera annulée après 30 jours si le produit n'est pas reçu, merci.");
-            System.out.println("======================================");
-            menu();
-        }
-
     }
 
     public void retourCommande(String code,Produit[] panier) {
-        System.out.println("Quel produit(s) voulez-vous retourner??");
-        System.out.println("======================================");
-        for (int i = 0; i < panier.length; i++) {
-            System.out.println(i + ". " + panier[i].nom + " (" + panier[i].description + "), " + panier[i].prix / 100.0 + "$.");
+        Scanner sc = new Scanner(System.in);
+        try {
+            System.out.println("Quel produit(s) voulez-vous retourner??");
+            System.out.println("======================================");
+            for (int i = 0; i < panier.length; i++) {
+                System.out.println(i + ". " + panier[i].nom + " (" + panier[i].description + "), " + panier[i].prix / 100.0 + "$.");
+            }
+            System.out.println("======================================");
+            int input = sc.nextInt();
+            Produit produitE = panier[input];
+
+
+            UUID uuid = UUID.randomUUID();
+            System.out.println("======================================");
+            System.out.println("Un montant de " + produitE.prix / 100.0 + "$ sera remboursé à votre carte.");
+            System.out.println("Suivez l'état du retour avec le code suivant: " + uuid);
+            System.out.println("Retournez le produit à l'address suivante: 3200, rue Jean-Brillant ");
+            System.out.println("La demande sera annulée après 30 jours si le produit n'est pas reçu, merci.");
+            System.out.println("======================================");
+            // misAjourInventaireR(produitE); mis à jour de l'inventaire du revendeur
+            menu();
         }
-        System.out.println("======================================");
-        int input = sc.nextInt();
-        Produit produitE = panier[input];
-
-
-        UUID uuid = UUID.randomUUID();
-        System.out.println("======================================");
-        System.out.println("Un montant de " + produitE.prix/100.0 + "$ sera remboursé à votre carte.");
-        System.out.println("Suivez l'état du retour avec le code suivant: " + uuid);
-        System.out.println("Retournez le produit à l'address suivante: 3200, rue Jean-Brillant ");
-        System.out.println("La demande sera annulée après 30 jours si le produit n'est pas reçu, merci.");
-        System.out.println("======================================");
-        // misAjourInventaireR(produitE); mis à jour de l'inventaire du revendeur
-        menu();
+        catch (InputMismatchException ime) {
+            System.out.println("!!!Entrée invalide. Veuillez entrer un nombre entier!!!");
+            sc.nextLine();
+            retourCommande(code, panier);
+        }catch (ArrayIndexOutOfBoundsException aioobe) {
+            System.out.println("!!!Indice invalide. Veuillez choisir un indice valide!!!");
+            retourCommande(code, panier);
+        }
     }
     public void annulerCommande(String code){
+        Scanner sc = new Scanner(System.in);
         System.out.println("Annuler la commande pour: "+ catalogue[0].nom + " ("+ catalogue[0].description + ")"+ "?");
         boolean repeat = true;
         while(repeat){
@@ -164,11 +185,11 @@ public class GestionCommande extends Authentification {
                     case 2:
                         menu();break;
                     default:
-                        System.out.println("Option non comprise. Veuillez réessayer.");
+                        System.out.println("!!!Option invalide. Veuillez entrer 1 ou 2!!!");
                 }
 
             } catch (NumberFormatException nfe) {
-                System.out.println("Option non comprise. Veuillez réessayer.");
+                System.out.println("!!!Entrée invalide. Veuillez entrer un nombre entier!!!");
             }
         }
     }
