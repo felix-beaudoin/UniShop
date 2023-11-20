@@ -141,7 +141,7 @@ public class PanierAchat extends Authentification {
             System.out.println("===================================================================");
             for (int i = 0; i < panier.size(); i++) {
                Produit produit = panier.get(i);
-                System.out.println(i+1 + ". " + produit.nom + " (" + produit.description + "), " + produit.prix/100 + "$");
+                System.out.println(i+1 + ". " + produit.nom + " (" + produit.description + "), " + produit.prix/100.0 + "$");
             }
             System.out.println("===================================================================");
         }
