@@ -75,7 +75,7 @@ public class Authentification {
                     case 0:
                         running = false; break;
                     default:
-                        System.out.println("Option invalide. Veuillez entrer un nombre entier entre 0 et 1.");
+                        System.out.println("Option invalide. Veuillez entrer un nombre entier entre 0 et 4.");
                 }
             } catch (NumberFormatException nfe) {
                 System.out.println("Entrée invalide. Veuillez entrer un nombre entier.");
