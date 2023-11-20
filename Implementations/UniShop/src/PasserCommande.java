@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.UUID;
+import java.util.*;
 
 public class PasserCommande extends Authentification{
     Acheteur acheteur;
@@ -56,11 +53,12 @@ public class PasserCommande extends Authentification{
                     case 0:
                         connexionAcheteur(acheteur);break;
                     default:
-                        System.out.println("Option non comprise. Veuillez réessayer.");
+                        System.out.println("!!!Option invalide. Veuillez entrer un nombre entier entre 0 et 2!!!");
+
                 }
 
             } catch (NumberFormatException nfe) {
-                System.out.println("Option non comprise. Veuillez réessayer.");
+                System.out.println("!!!Entrée invalide. Veuillez entrer un nombre entier!!!");
             }
         }
     }
@@ -71,6 +69,7 @@ public class PasserCommande extends Authentification{
         catalogue = fetchCatalogue();
 
         while (repeat) {
+            System.out.println();
             System.out.println("Votre panier d'achat contient:");
             System.out.println("======================================");
             for (int i = 0; i < catalogue.length; i++) {
@@ -95,11 +94,12 @@ public class PasserCommande extends Authentification{
                     case 2:
                         changerAdress();repeat=false;break;
                     default:
-                        System.out.println("Option non comprise. Veuillez réessayer.");
+                        System.out.println("!!!Option invalide. Veuillez entrer 1 ou 2!!!");
+
                 }
 
             } catch (NumberFormatException nfe) {
-                System.out.println("Option non comprise. Veuillez réessayer.");
+                System.out.println("!!!Entrée invalide. Veuillez entrer un nombre entier!!!");
             }
         }
 
@@ -109,6 +109,7 @@ public class PasserCommande extends Authentification{
         boolean repeat = true;
 
         while (repeat) {
+            System.out.println();
             System.out.println("Vos informations personelles pour la commande");
             System.out.println("======================================");
             System.out.println("Prénom: " + acheteur.prenom + "     Nom: " + acheteur.nom);
@@ -131,11 +132,11 @@ public class PasserCommande extends Authentification{
                     case 2:
                         passerCommande();break;
                     default:
-                        System.out.println("Option non comprise. Veuillez réessayer.");
+                        System.out.println("!!!Option invalide. Veuillez entrer 1 ou 2!!!");
                 }
 
             } catch (NumberFormatException nfe) {
-                System.out.println("Option non comprise. Veuillez réessayer.");
+                System.out.println("!!!Entrée invalide. Veuillez entrer un nombre entier!!!");
             }
         }
 
@@ -150,7 +151,7 @@ public class PasserCommande extends Authentification{
             String numero = detailCarte();
 
             System.out.println("La livraison d'un total de " + getTotal()/100.0 + "$");
-            System.out.println("Sera chargé à la carte commençant par " + numero.substring(0,5));
+            System.out.println("Sera chargé à la carte commençant par " + numero);
             System.out.println("À l'adress: " + acheteur.adresse);
             System.out.println("1. Confirmer");
             System.out.println("2. Retour");
@@ -166,35 +167,56 @@ public class PasserCommande extends Authentification{
                     case 2:
                         commande();repeat=false;break;
                     default:
-                        System.out.println("Option non comprise. Veuillez réessayer.");
+                        System.out.println("!!!Option invalide. Veuillez entrer 1 ou 2!!!");
                 }
 
             } catch (NumberFormatException nfe) {
-                System.out.println("Option non comprise. Veuillez réessayer.");
+                System.out.println("!!!Entrée invalide. Veuillez entrer un nombre entier!!!");
             }
         }
     }
     private String detailCarte(){
         Scanner sc = new Scanner(System.in);
+        try {
+            System.out.println();
+            System.out.println("Entrer les détails de votre carte");
+            System.out.println("Numéro de la carte: ");
+            String numero = sc.nextLine();
 
-        System.out.println("Entrer les détails de votre carte");
-        System.out.println("Numéro de la carte: ");
-        String numero = sc.nextLine();
-        System.out.println("Code de sécurité de la carte: ");
-        int code = sc.nextInt();
-        System.out.println("Date d'expiration de la carte: ");
-        int date = sc.nextInt();
-        return numero;
+            System.out.println("Code de sécurité de la carte: ");
+            int code = sc.nextInt();
+
+            System.out.println("Date d'expiration de la carte: ");
+            int date = sc.nextInt();
+
+            return numero;
+        }
+        catch (InputMismatchException ime) {
+            System.out.println("!!!Entrée invalide pour le code/date. Veuillez entrer des valeurs numériques valides!!!");
+            sc.nextLine();
+            return detailCarte();
+        } catch (NoSuchElementException nsee) {
+            System.out.println("!!!Impossible de lire les détails de la carte. Veuillez réessayer!!!");
+            sc.nextLine();
+            return detailCarte();
+        }
     }
-    private void changerAdress(){ //add inputmismatch
+    private void changerAdress(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Quelle est l'address de livraison?");
-        String address = sc.nextLine();
-        System.out.println("======================================");
-        System.out.println("L'address a été changé à: " + address);
-        System.out.println("======================================");
-        System.out.println();
-        acheteur.adresse = address;
+        try {
+            String address = sc.nextLine();
+            System.out.println("======================================");
+            System.out.println("L'address a été changé à: " + address);
+            System.out.println("======================================");
+            System.out.println();
+            acheteur.adresse = address;
+        }
+        catch (InputMismatchException ime) {
+            System.out.println("!!!Entrée invalide. Veuillez entrer une adresse valide!!!");
+            sc.nextLine();
+            changerAdress();
+        }
     }
     private void confirmation(){
         UUID uuid = UUID.randomUUID();
