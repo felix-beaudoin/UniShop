@@ -1,8 +1,5 @@
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class PanierAchat extends Authentification {
     Acheteur acheteur;
@@ -62,11 +59,11 @@ public class PanierAchat extends Authentification {
                     case 0:
                         connexionAcheteur(acheteur);repeat = false;  break;
                     default:
-                        System.out.println("Option non comprise. Veuillez réessayer.");
+                        System.out.println("!!!Option invalide. Veuillez entrer un nombre entier entre 0 et 3!!!");
                 }
 
             } catch (NumberFormatException nfe) {
-                System.out.println("Option non comprise. Veuillez réessayer.");
+                System.out.println("!!!Entrée invalide. Veuillez entrer un nombre entier!!!");
             }
         }
     }
@@ -79,16 +76,26 @@ public class PanierAchat extends Authentification {
             Produit p = catalogue[i];
             System.out.println(i + ". " + p.nom + " (" + p.description + ")" + " ,prix: " + p.prix/100.0 + "$ ,point(s): " + p.pointsBonus );
         }
+        try {
         int input = sc.nextInt();
-        Produit p = catalogue[input];
-        setTotal(getTotal() + p.prix);
-        setPoint(getPoint() + p.pointsBonus);
-        System.out.println("======================================");
-        System.out.println("Vous avez ajouté " + p.nom);
-        System.out.println("======================================");
-        panier.add(p);
-        System.out.println();
-        panierAchat();
+            Produit p = catalogue[input];
+            setTotal(getTotal() + p.prix);
+            setPoint(getPoint() + p.pointsBonus);
+            System.out.println("=============================================================");
+            System.out.println("Vous avez ajouté: " + p.nom + " (" + p.description + ")");
+            System.out.println("=============================================================");
+            panier.add(p);
+            System.out.println();
+            panierAchat();
+        }
+        catch (InputMismatchException ime) {
+            System.out.println("!!!Entrée invalide. Veuillez entrer un nombre entier!!!");
+            sc.nextLine();
+            ajouterProduit();
+        } catch (ArrayIndexOutOfBoundsException aioobe) {
+            System.out.println("!!!Indice invalide. Veuillez choisir un indice valide!!!");
+            ajouterProduit();
+        }
 
     }
 
@@ -102,17 +109,27 @@ public class PanierAchat extends Authentification {
             for (int i = 0; i < panier.size(); i++) {
                 System.out.println(i + ". " + panier.get(i).nom);
             }
+            try {
+                int input = sc.nextInt();
+                Produit p = panier.get(input);
+                setTotal(getTotal() - p.prix);
+                setPoint(getPoint() - p.pointsBonus);
+                panier.remove(input);
+                System.out.println("======================================");
+                System.out.println("Vous avez retiré: " + p.nom);
+                System.out.println("======================================");
+                System.out.println();
+                panierAchat();
+            }
+            catch (InputMismatchException ime) {
+                System.out.println("!!!Entrée invalide. Veuillez entrer un nombre entier!!!");
+                sc.nextLine();
+                retirerProduit();
+            } catch (IndexOutOfBoundsException ioobe) {
+                System.out.println("!!!Indice invalide. Veuillez choisir un indice valide!!!");
+                retirerProduit();
+            }
 
-            int input = sc.nextInt();
-            Produit p = panier.get(input);
-            setTotal(getTotal() - p.prix);
-            setPoint(getPoint() - p.pointsBonus);
-            panier.remove(input);
-            System.out.println("======================================");
-            System.out.println("Vous avez retiré " + p.nom);
-            System.out.println("======================================");
-            System.out.println();
-            panierAchat();
         }
     }
 
@@ -121,11 +138,12 @@ public class PanierAchat extends Authentification {
             System.out.println("Le panier est vide");
         } else {
             System.out.println("Le panier contient:");
-            System.out.println("======================================");
+            System.out.println("===================================================================");
             for (int i = 0; i < panier.size(); i++) {
-                System.out.println(i+1 + ". " + panier.get(i).nom);
+               Produit produit = panier.get(i);
+                System.out.println(i+1 + ". " + produit.nom + " (" + produit.description + "), " + produit.prix/100 + "$");
             }
-            System.out.println("======================================");
+            System.out.println("===================================================================");
         }
         System.out.println();
         panierAchat();
