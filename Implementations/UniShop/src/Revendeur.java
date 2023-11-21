@@ -3,11 +3,10 @@ import java.util.List;
 
 public class Revendeur {
 
-	String nom, adresse, email, role;
-	int telephone;
+	String nom, adresse, email, role, telephone;
 	List<Produit> listeProduit = new ArrayList<>();
 
-	public Revendeur(String nom, String adresse, String email, int telephone, List<Produit> listeProduit){
+	public Revendeur(String nom, String adresse, String email, String telephone, List<Produit> listeProduit){
 		this.nom = nom;
 		this.adresse = adresse;
 		this.email = email;

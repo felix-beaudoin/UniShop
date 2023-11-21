@@ -35,6 +35,7 @@ public class AfficherCatalogue {
                 int num = Integer.parseInt(inp);
 
                 if (num == 0) {
+                    in.close();
                     break;// quitter le menu
                 } else {
                     Produit p = produitHashMap.get(num);
@@ -49,7 +50,6 @@ public class AfficherCatalogue {
                 System.out.println("Choix non comprix, quel produit voulez-vous regarder?");
             }
         }
-
     }
 
     private Produit[] fetchCatalogue(){

@@ -43,14 +43,17 @@ public class Authentification {
         }
     }
 
-    private void connexionAcheteur(Acheteur acheteur) {
+    public void connexionAcheteur(Acheteur acheteur) {
         if (acheteur.pseudo == null){
             acheteur = new Acheteur("Doe", "John","John123","Johndoe@email.com",
-                    "3150 rue Jean-Brillant", 1234567890);
+                    "3150 rue Jean-Brillant", "514-123-1234");
         }
         System.out.println("Vous êtes connecté en tant qu'acheteur: " + acheteur.pseudo);
         System.out.println("Sélectionnez l'option désirée:");
         System.out.println("1. Afficher le catalogue");
+        System.out.println("2. Afficher le panier d'achat");
+        System.out.println("3. Passer une commande");
+        System.out.println("4. Gestion de commandes");
         System.out.println("0. Quitter");
 
         while (running) {
@@ -63,10 +66,16 @@ public class Authentification {
                 switch (option) {
                     case 1:
                         Catalogue(acheteur); break;
+                    case 2:
+                        Panier(acheteur); break;
+                    case 3:
+                        Commande(acheteur); break;
+                    case 4:
+                        Gestion(acheteur); break;
                     case 0:
                         running = false; break;
                     default:
-                        System.out.println("Option invalide. Veuillez entrer un nombre entier entre 0 et 1.");
+                        System.out.println("Option invalide. Veuillez entrer un nombre entier entre 0 et 4.");
                 }
             } catch (NumberFormatException nfe) {
                 System.out.println("Entrée invalide. Veuillez entrer un nombre entier.");
@@ -77,8 +86,8 @@ public class Authentification {
     private void connexionRevendeur(Revendeur revendeur) {
         if (revendeur.nom == null){
             List<Produit> listeProduit = new ArrayList<>();
-            revendeur = new Revendeur("John", "3150 rue Jean-Brillant","Johndoe@email.com",
-                    1234567890, listeProduit);
+            revendeur = new Revendeur("JohnDoe", "3150 rue Jean-Brillant","Johndoe@email.com",
+                    "514-123-1234", listeProduit);
         }
 
         System.out.println("Vous êtes connecté en tant que revendeur: " + revendeur.nom);
@@ -137,7 +146,7 @@ public class Authentification {
         System.out.println("Quel est votre email?");
         String email = in.nextLine();
 
-        while (emailPatternIncorrect(email)) {
+        while (!emailPatternCorrect(email)) {
             System.out.println("Email incorrect, veuillez réessayez.");
             email = in.nextLine();
         }
@@ -145,20 +154,19 @@ public class Authentification {
         System.out.println("Quel est votre adresse de livraison?");
         String adresse = in.nextLine();
 
-        System.out.println("Quel est votre numéro de téléphone?");
-        String telephoneString = in.nextLine();
-        int telephone = 0;
+        System.out.println("Quel est votre numéro de téléphone? (514-123-1234)");
+        String telephone = in.nextLine();
         boolean telephoneLoop = true;
         while(telephoneLoop) {
-            try {
-                telephone = Integer.parseInt(telephoneString);
+            if (telephone.matches("\\d{3}-\\d{3}-\\d{4}")) {
                 telephoneLoop = false;
-            } catch (NumberFormatException nfe) {
-                System.out.println("Votre numéro ne peut contenir que des nombres, veuillez réessayez.");
+            } else {
+                System.out.println("Votre numéro doit être dans le format 514-123-1234, veuillez réessayez.");
+                telephone = in.nextLine();
             }
         }
-
-        return creerNouveauAcheteur(new Acheteur(nom, prenom, pseudo, email, adresse, telephone));
+        return new Acheteur(nom, prenom, pseudo, email, adresse, telephone);
+        //return creerNouveauAcheteur(new Acheteur(nom, prenom, pseudo, email, adresse, telephone));
     }
 
     private Revendeur inscriptionRevendeur() {
@@ -181,29 +189,41 @@ public class Authentification {
         System.out.println("Quel est votre email?");
         String email = in.nextLine();
 
-        while (emailPatternIncorrect(email)) {
+        while (!emailPatternCorrect(email)) {
             System.out.println("Email incorrect, veuillez réessayez.");
             email = in.nextLine();
         }
 
-        System.out.println("Quel est votre numéro de téléphone?");
-        String telephoneString = in.nextLine();
-        int telephone = 0;
+        System.out.println("Quel est votre numéro de téléphone? (514-123-1234)");
+        String telephone = in.nextLine();
         boolean telephoneLoop = true;
         while(telephoneLoop) {
-            try {
-                telephone = Integer.parseInt(telephoneString);
+            if (telephone.matches("\\d{3}-\\d{3}-\\d{4}")) {
                 telephoneLoop = false;
-            } catch (NumberFormatException nfe) {
-                System.out.println("Votre numéro ne peut contenir que des nombres, veuillez réessayez.");
+            } else {
+                System.out.println("Votre numéro doit être dans le format 514-123-1234, veuillez réessayez.");
+                telephone = in.nextLine();
             }
         }
         List<Produit> listeProduit = new ArrayList<>();
-        return creerNouveauRevendeur(new Revendeur(nom, adresse, email, telephone, listeProduit));
+        return new Revendeur(nom, adresse, email, telephone, listeProduit);
+        //return creerNouveauRevendeur(new Revendeur(nom, adresse, email, telephone, listeProduit));
     }
 
     private void Catalogue(Acheteur a) {
         AfficherCatalogue afficherCatalogue = new AfficherCatalogue(a);
+    }
+    private void Panier(Acheteur a){
+        PanierAchat panier = new PanierAchat(a);
+        panier.panierAchat();
+    }
+    private void Commande(Acheteur a){
+        PasserCommande commande = new PasserCommande(a);
+        commande.passerCommande();
+    }
+    private void Gestion(Acheteur a){
+        GestionCommande gestion = new GestionCommande(a);
+        gestion.menu();
     }
 
     private void OffrirProduit(Revendeur revendeur){
@@ -218,33 +238,46 @@ public class Authentification {
         System.out.println("Entrez la description du produit:");
         String description = in.nextLine();
 
-        System.out.println("Entrez la quantité initiale du produit:");
-        int quantite = in.nextInt();
+        int quantite = 0;
+        while (true) {
+            System.out.println("Entrez la quantité initiale du produit:");
+            try {
+                quantite = Integer.parseInt(in.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Entrée invalide. Veuillez entrer un nombre entier.");
+            }
+        }
 
-        System.out.println("Entrez le prix du produit:");
-        int prix = in.nextInt();
+        int prix = 0;
+        while (true) {
+            System.out.println("Entrez le prix du produit:");
+            try {
+                prix = Integer.parseInt(in.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Entrée invalide. Veuillez entrer un nombre entier.");
+            }
+        }
 
-        boolean pointsBonusValides = false;
         int pointsBonus = 0;
-
-        while (!pointsBonusValides) {
+        while (true) {
             System.out.println("Entrez le nombre de points bonus (optionnel) :");
-            pointsBonus = in.nextInt();
-
-            int pointsBase = prix;
-
-            // Arrondir au dollar inférieur si le prix n'est pas un nombre entier
-            if (prix % 1 != 0) {
-                pointsBase = (int) Math.floor(prix);
+            try {
+                pointsBonus = Integer.parseInt(in.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Entrée invalide. Veuillez entrer un nombre entier.");
             }
+        }
 
-            // Le nombre total de points (base + bonus) ne peut pas dépasser 20 points par dollar
-            if (pointsBase + pointsBonus > 20 * prix) {
-                System.out.println("Le nombre total de points (base + bonus) ne peut pas dépasser 20 points par dollar." +
+        int pointsBase = prix;
+
+        // Le nombre total de points (base + bonus) ne peut pas dépasser 20 points par dollar
+        while (pointsBase + pointsBonus > 20 * prix) {
+            System.out.println("Le nombre total de points (base + bonus) ne peut pas dépasser 20 points par dollar." +
                     "Veuillez entrer à nouveau le nombre de points bonus.");
-            } else {
-                pointsBonusValides = true;
-            }
+            pointsBonus = Integer.parseInt(in.nextLine());
         }
 
         System.out.println("Voulez-vous ajouter des images et des vidéos ? (O/N) :");
@@ -253,28 +286,38 @@ public class Authentification {
         if (reponse.equalsIgnoreCase("O")) {
             System.out.println("Entrez les liens vers les images et les vidéos (séparés par des virgules) :");
             String mediaLinks = in.nextLine();
-            liensMedia = mediaLinks.split(",");
+            liensMedia = mediaLinks.split(", ");
         }
 
-        System.out.println("Entrez le type du produit:");
-        System.out.println("1. LIVRES_ET_MANUELS");
-        System.out.println("2. RESSOURCES_APPRENTISSAGE");
-        System.out.println("3. PAPETERIES");
-        System.out.println("4. MATERIEL_INFORMATIQUE");
-        System.out.println("5. EQUIPEMENT_BUREAU");
-        int typeInput = in.nextInt();
+        int typeInput = 0;
+        while (true) {
+            System.out.println("Entrez le type du produit:");
+            System.out.println("1. LIVRES_ET_MANUELS");
+            System.out.println("2. RESSOURCES_APPRENTISSAGE");
+            System.out.println("3. PAPETERIES");
+            System.out.println("4. MATERIEL_INFORMATIQUE");
+            System.out.println("5. EQUIPEMENT_BUREAU");
+            try {
+                typeInput = Integer.parseInt(in.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Entrée invalide. Veuillez entrer un nombre entier.");
+            }
+        }
 
         TypeProduit type = null;
-        switch(typeInput) {
-            case 1: type = TypeProduit.LIVRES_ET_MANUELS; break;
-            case 2: type = TypeProduit.RESSOURCES_APPRENTISSAGE; break;
-            case 3: type = TypeProduit.PAPETERIES; break;
-            case 4: type = TypeProduit.MATERIEL_INFORMATIQUE; break;
-            case 5: type = TypeProduit.EQUIPEMENT_BUREAU; break;
-            default: System.out.println("Type non existant. Veuillez réessayer.");
-                return;
+        while (type == null) {
+            switch(typeInput) {
+                case 1: type = TypeProduit.LIVRES_ET_MANUELS; break;
+                case 2: type = TypeProduit.RESSOURCES_APPRENTISSAGE; break;
+                case 3: type = TypeProduit.PAPETERIES; break;
+                case 4: type = TypeProduit.MATERIEL_INFORMATIQUE; break;
+                case 5: type = TypeProduit.EQUIPEMENT_BUREAU; break;
+                default:
+                    System.out.println("Type non existant. Veuillez réessayer.");
+                    typeInput = Integer.parseInt(in.nextLine());
+            }
         }
-        in.nextLine();
 
         produitId = produitId+1;
         Produit produit = new Produit(type, produitId, prix, titre, description, revendeur, quantite, pointsBonus, liensMedia);
@@ -298,10 +341,6 @@ public class Authentification {
         int totalVendus = 0;
         int totalRevenu = 0;
 
-        for (Produit produit : revendeur.listeProduit) {
-            totalVendus += produit.quantite;
-            totalRevenu += produit.prix * produit.quantite;
-        }
         System.out.println("======================================");
         System.out.println("Métriques de vos activités:");
         System.out.println("Nombre total de produits mis en vente: " + totalProduits);
@@ -349,7 +388,7 @@ public class Authentification {
         connexionRevendeur(revendeur);
     }
 
-    private boolean emailPatternIncorrect(String email) {
+    private boolean emailPatternCorrect(String email) {
         return Pattern.compile("^(.+)@(\\S+)$").matcher(email).matches();
     }
 

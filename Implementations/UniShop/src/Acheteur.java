@@ -1,9 +1,9 @@
 public class Acheteur {
 
-    String nom, prenom, pseudo, email, adresse, role;
-    int telephone, points;
+    String nom, prenom, pseudo, email, adresse, role, telephone;
+    int points;
 
-    public Acheteur(String nom, String prenom, String pseudo, String email, String adresse, int telephone) {
+    public Acheteur(String nom, String prenom, String pseudo, String email, String adresse, String telephone) {
         this.nom = nom;
         this.prenom = prenom;
         this.pseudo = pseudo;
