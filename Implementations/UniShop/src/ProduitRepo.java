@@ -44,6 +44,43 @@ public class ProduitRepo {
     }
 
 
+    public LinkedList<Produit> recherche(String nom) {
+        LinkedList<Produit> produits = get();
+
+        for (Produit p : produits) {
+            if (!p.nom.equals(nom)) {
+                produits.remove(p);
+            }
+        }
+
+        return produits;
+    }
+
+    public LinkedList<Produit> recherche(TypeProduit type) {
+        LinkedList<Produit> produits = get();
+
+        for (Produit p : produits) {
+            if (!p.type.equals(type)) {
+                produits.remove(p);
+            }
+        }
+
+        return produits;
+    }
+
+    public LinkedList<Produit> recherche(int prixMin, int prixMax) {
+        LinkedList<Produit> produits = get();
+
+        for (Produit p : produits) {
+            if (p.prix < prixMin || p.prix > prixMax) {
+                produits.remove(p);
+            }
+        }
+
+        return produits;
+    }
+
+
 
 
 }
