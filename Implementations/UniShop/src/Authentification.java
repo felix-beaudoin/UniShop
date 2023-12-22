@@ -18,6 +18,7 @@ public class Authentification {
         System.out.println("2. S'inscrire en tant que revendeur");
         System.out.println("3. Se connecter en tant qu'acheteur");
         System.out.println("4. Se connecter en tant que revendeur");
+        System.out.println("5. Se connecter en tant qu'admin");
         System.out.println("0. Quitter");
 
         while (running) {
@@ -95,6 +96,8 @@ public class Authentification {
         System.out.println("1. Offrir un produit");
         System.out.println("2. Afficher les metriques");
         System.out.println("3. Confirmer la reception d'un retour");
+        System.out.println("4. Afficher les listes des acheteurs");
+        System.out.println("5. Afficher le profil d'un acheteur");
         System.out.println("0. Quitter");
 
         while (running) {
@@ -111,6 +114,12 @@ public class Authentification {
                         break;
                     case 3:
                         ConfirmerReception(revendeur);
+                        break;
+                    case 4:
+                       // Acheteur.getListeAcheteur(null);
+                       break;
+                    case 5:
+                        //Acheteur.getProfilAcheteur(null);  
                         break;
                     case 0:
                         running = false;
