@@ -1,0 +1,9 @@
+package Main;
+
+enum TypeProduit {
+    LIVRES_ET_MANUELS,
+    RESSOURCES_APPRENTISSAGE,
+    PAPETERIES,
+    MATERIEL_INFORMATIQUE,
+    EQUIPEMENT_BUREAU;
+    }
