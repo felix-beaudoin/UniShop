@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class AfficherProduit {
@@ -34,7 +35,17 @@ public class AfficherProduit {
         }
     }
 
-    public void afficherCommentaires(Produit p) {
+        public void afficherCommentaires(Produit p) {
+        ProduitRepo produitRepo = new ProduitRepo();
+        LinkedList<Produit> produits = produitRepo.get();
+
+        for (Produit produit : produits) {
+            if (produit.id == p.id) {
+                p = produit;
+                break;
+            }
+        }
+
         HashMap<Integer, Commentaire> commentaireHashMap = new HashMap<>();
         for (int i = 0; i < p.commentaires.size(); i++) {
             commentaireHashMap.put((i+1), p.commentaires.get(i));
@@ -60,19 +71,19 @@ public class AfficherProduit {
                     System.out.println("N- Ne rien faire");
 
                     boolean actionComment = true;
-
+                    AcheteurRepo acheteurRepo = new AcheteurRepo();
+                    
                     while (actionComment) {
 
                         inp = in.nextLine();
                         switch (inp) {
 
                             case "L": {
-                                c.likeCommentaire();
+                                c.likeCommentaire(acheteurRepo);
                                 break;
                             }
-
                             case "S": {
-                                c.signaler();
+                                c.signaler(acheteurRepo);
                                 break;
                             }
 
@@ -84,6 +95,8 @@ public class AfficherProduit {
 
                     }
 
+                    // Save the updated Produit object to the JSON file
+                    produitRepo.put(p);
 
                 }
 
@@ -93,6 +106,7 @@ public class AfficherProduit {
 
         }
     }
+
 
     public void ajouterCommentaire(Produit p) {
         System.out.println("Votre commentaire: ");

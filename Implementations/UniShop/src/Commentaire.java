@@ -9,13 +9,16 @@ public class Commentaire {
         this.a = a;
     }
 
-    public void likeCommentaire() {
+    public void likeCommentaire(AcheteurRepo acheteurRepo) {
         nbLikes++;
         a.points += 10;
+        acheteurRepo.put(a);
     }
-
-    public void signaler() {
+    
+    public void signaler(AcheteurRepo acheteurRepo) {
         a.points -= 10;
+        acheteurRepo.put(a);
     }
+    
 
 }

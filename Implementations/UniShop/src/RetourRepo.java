@@ -1,17 +1,17 @@
 import java.io.*;
 import java.util.LinkedList;
 
-public class RevendeurRepo {
+public class RetourRepo {
 
-    public LinkedList<Revendeur> get() {
+    public LinkedList<Retour> get() {
 
         try {
-            FileInputStream fileIn = new FileInputStream("Revendeurs.json");
+            FileInputStream fileIn = new FileInputStream("Retours.json");
             ObjectInputStream in = new ObjectInputStream(fileIn);
 
             try {
-                var listeRevendeurs = (LinkedList<Revendeur>) in.readObject();
-                return listeRevendeurs;
+                var listeRetours = (LinkedList<Retour>) in.readObject();
+                return listeRetours;
             } catch (ClassNotFoundException c) {
                 c.printStackTrace();
             }
@@ -27,11 +27,11 @@ public class RevendeurRepo {
     }
 
 
-    public void put(Revendeur r) {
+    public void put(Retour r) {
 
 
         try {
-            FileOutputStream fileOut = new FileOutputStream("Revendeurs.json");
+            FileOutputStream fileOut = new FileOutputStream("Retours.json");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject( get().add(r) );
             out.close();

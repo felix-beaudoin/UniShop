@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -45,16 +46,30 @@ public class Authentification {
     }
 
     public void connexionAcheteur(Acheteur acheteur) {
+        AcheteurRepo acheteurRepo = new AcheteurRepo();
+        LinkedList<Acheteur> acheteurs = acheteurRepo.get();
+
         if (acheteur.pseudo == null){
-            acheteur = new Acheteur("Doe", "John","John123","Johndoe@email.com",
-                    "3150 rue Jean-Brillant", "514-123-1234");
+            for (Acheteur a : acheteurs) {
+                if (a.pseudo.equals(acheteur.pseudo)) {
+                    acheteur = a;
+                    break;
+                }
+            }
         }
+
+        if (acheteur.pseudo == null){
+            System.out.println("Acheteur Pseudo non trouvé. Veuillez essayer à nouveau.");
+            return;
+        }
+
         System.out.println("Vous êtes connecté en tant qu'acheteur: " + acheteur.pseudo);
         System.out.println("Sélectionnez l'option désirée:");
         System.out.println("1. Afficher le catalogue");
         System.out.println("2. Afficher le panier d'achat");
         System.out.println("3. Passer une commande");
         System.out.println("4. Gestion de commandes");
+        System.out.println("5. Rechercher revendeur par pseudo");
         System.out.println("0. Quitter");
 
         while (running) {
@@ -73,6 +88,8 @@ public class Authentification {
                         Commande(acheteur); break;
                     case 4:
                         Gestion(acheteur); break;
+                    case 5:
+                        RechercherAcheteur(acheteur); break;
                     case 0:
                         running = false; break;
                     default:
@@ -85,10 +102,21 @@ public class Authentification {
     }
 
     private void connexionRevendeur(Revendeur revendeur) {
+        RevendeurRepo revendeurRepo = new RevendeurRepo();
+        LinkedList<Revendeur> revendeurs = revendeurRepo.get();
+
         if (revendeur.nom == null){
-            List<Produit> listeProduit = new ArrayList<>();
-            revendeur = new Revendeur("JohnDoe", "3150 rue Jean-Brillant","Johndoe@email.com",
-                    "514-123-1234", listeProduit);
+            for (Revendeur r : revendeurs) {
+                if (r.nom.equals(revendeur.nom)) {
+                    revendeur = r;
+                    break;
+                }
+            }
+        }
+
+        if (revendeur.nom == null){
+            System.out.println("Revendeur nom non trouvé. Veuillez essayer à nouveau.");
+            return;
         }
 
         System.out.println("Vous êtes connecté en tant que revendeur: " + revendeur.nom);
@@ -98,6 +126,8 @@ public class Authentification {
         System.out.println("3. Confirmer la reception d'un retour");
         System.out.println("4. Afficher les listes des acheteurs");
         System.out.println("5. Afficher le profil d'un acheteur");
+        System.out.println("6. Afficher les évaluations d'un produit");
+        System.out.println("6. Rechercher revendeur par pseudo");
         System.out.println("0. Quitter");
 
         while (running) {
@@ -107,19 +137,25 @@ public class Authentification {
 
                 switch (option) {
                     case 1:
-                        OffrirProduit(revendeur);
+                        OffrirProduit(revendeur, revendeurRepo);
                         break;
                     case 2:
-                        AfficherMetriques(revendeur);
+                        AfficherMetriques(revendeur, revendeurRepo);
                         break;
                     case 3:
-                        ConfirmerReception(revendeur);
+                        ConfirmerReception(revendeur, revendeurRepo);
                         break;
                     case 4:
                        // Acheteur.getListeAcheteur(null);
                        break;
                     case 5:
                         //Acheteur.getProfilAcheteur(null);  
+                        break;
+                    case 6:
+                        AfficherEvaluationProduit(revendeur, revendeurRepo);
+                        break;
+                    case 7:
+                        RechercherAcheteur(revendeur);
                         break;
                     case 0:
                         running = false;
@@ -174,8 +210,7 @@ public class Authentification {
                 telephone = in.nextLine();
             }
         }
-        return new Acheteur(nom, prenom, pseudo, email, adresse, telephone);
-        //return creerNouveauAcheteur(new Acheteur(nom, prenom, pseudo, email, adresse, telephone));
+        return creerNouveauAcheteur(new Acheteur(nom, prenom, pseudo, email, adresse, telephone));
     }
 
     private Revendeur inscriptionRevendeur() {
@@ -215,8 +250,7 @@ public class Authentification {
             }
         }
         List<Produit> listeProduit = new ArrayList<>();
-        return new Revendeur(nom, adresse, email, telephone, listeProduit);
-        //return creerNouveauRevendeur(new Revendeur(nom, adresse, email, telephone, listeProduit));
+        return creerNouveauRevendeur(new Revendeur(nom, adresse, email, telephone, listeProduit));
     }
 
     private void Catalogue(Acheteur a) {
@@ -235,7 +269,7 @@ public class Authentification {
         gestion.menu();
     }
 
-    private void OffrirProduit(Revendeur revendeur){
+    private void OffrirProduit(Revendeur revendeur, RevendeurRepo revendeurRepo){
         System.out.println("======================================");
         System.out.println("Offrir un produit");
         System.out.println("======================================");
@@ -332,6 +366,14 @@ public class Authentification {
         Produit produit = new Produit(type, produitId, prix, titre, description, revendeur, quantite, pointsBonus, liensMedia);
 
         revendeur.listeProduit.add(produit);
+        revendeur.listeProduit.add(produit);
+
+        // Save the updated Revendeur (listeProduit)
+        revendeurRepo.put(revendeur);
+
+        // Save the new Produit
+        ProduitRepo produitRepo = new ProduitRepo();
+        produitRepo.put(produit);
 
         System.out.println("Produit offert avec succès! L'identifiant unique du produit est " + produitId);
 
@@ -345,7 +387,51 @@ public class Authentification {
         connexionRevendeur(revendeur);
     }
 
-    private void AfficherMetriques(Revendeur revendeur){
+    private void AfficherEvaluationProduit(Revendeur revendeur, RevendeurRepo revendeurRepo){
+        ProduitRepo produitRepo = new ProduitRepo();
+        LinkedList<Produit> produits = produitRepo.get();
+    
+        int inputId = -1;
+        while (inputId == -1) {
+            System.out.println("Veuillez entrer l'ID du produit:");
+            Scanner in = new Scanner(System.in);
+            String inp = in.nextLine();
+    
+            try {
+                inputId = Integer.parseInt(inp);
+                System.out.println("ID du produit: " + inputId);
+            } catch (NumberFormatException e) {
+                System.out.println("Entrée invalide. Veuillez entrer un nombre entier.");
+            }
+        }
+    
+        boolean produitFound = false;
+        for (Produit produit : produits) {
+            if (produit.id == inputId) {
+                System.out.println("Commentaires pour le produit " + produit.id + ":");
+                for (Commentaire commentaire : produit.commentaires) {
+                    System.out.println("- " + commentaire.texte);
+                }
+                produitFound = true;
+                break;
+            }
+        }
+    
+        if (!produitFound) {
+            System.out.println("Aucun produit trouvé avec cet ID.");
+        }
+    
+        System.out.println();
+        System.out.println("Appuyez sur n'importe quelle touche pour revenir au menu revendeur.");
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        connexionRevendeur(revendeur);
+    }
+
+    private void AfficherMetriques(Revendeur revendeur, RevendeurRepo revendeurRepo){
         int totalProduits = revendeur.listeProduit.size();
         int totalVendus = 0;
         int totalRevenu = 0;
@@ -367,26 +453,101 @@ public class Authentification {
         connexionRevendeur(revendeur);
     }
 
-    private void ConfirmerReception(Revendeur revendeur){
+    private void RechercherAcheteur(Revendeur r) {
+        AcheteurRepo acheteurRepo = new AcheteurRepo();
+        LinkedList<Acheteur> acheteurs = acheteurRepo.get();
+    
+        System.out.println("Veuillez entrer le pseudo de l'acheteur:");
+        Scanner in = new Scanner(System.in);
+        String pseudo = in.nextLine();
+    
+        Acheteur acheteurRecherche = null;
+        for (Acheteur acheteur : acheteurs) {
+            if (acheteur.pseudo.equals(pseudo)) {
+                acheteurRecherche = acheteur;
+                break;
+            }
+        }
+    
+        if (acheteurRecherche != null) {
+            System.out.println("Acheteur trouvé: " + acheteurRecherche.pseudo);
+            System.out.println(acheteurRecherche.toString());
+        } else {
+            System.out.println("Aucun acheteur trouvé avec ce pseudo.");
+        }
+    
+        System.out.println();
+        System.out.println("Appuyez sur n'importe quelle touche pour revenir au menu revendeur.");
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        connexionRevendeur(r);
+    }
+
+    private void RechercherAcheteur(Acheteur a) {
+        AcheteurRepo acheteurRepo = new AcheteurRepo();
+        LinkedList<Acheteur> acheteurs = acheteurRepo.get();
+    
+        System.out.println("Veuillez entrer le pseudo de l'acheteur:");
+        Scanner in = new Scanner(System.in);
+        String pseudo = in.nextLine();
+    
+        Acheteur acheteurRecherche = null;
+        for (Acheteur acheteur : acheteurs) {
+            if (acheteur.pseudo.equals(pseudo)) {
+                acheteurRecherche = acheteur;
+                break;
+            }
+        }
+    
+        if (acheteurRecherche != null) {
+            System.out.println("Acheteur trouvé: " + acheteurRecherche.pseudo);
+            System.out.println(acheteurRecherche.toString());
+        } else {
+            System.out.println("Aucun acheteur trouvé avec ce pseudo.");
+        }
+    
+        System.out.println();
+        System.out.println("Appuyez sur n'importe quelle touche pour revenir au menu revendeur.");
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        connexionAcheteur(a);
+    }
+
+    private void ConfirmerReception(Revendeur revendeur, RevendeurRepo revendeurRepo){
+        RetourRepo retourRepo = new RetourRepo();
+        LinkedList<Retour> retours = retourRepo.get();
+    
         System.out.println("======================================");
         System.out.println("Confirmer la reception d'un retour");
         System.out.println("======================================");
-        System.out.println("Prototype: (Entrez 1 pour tester ID valide.)");
-        String[] liensMedia = null;
-        Produit produit = new Produit(TypeProduit.LIVRES_ET_MANUELS, 1, 1000, "Livre",
-                "Un livre intéressant", revendeur, 10, 5, liensMedia);
-        Retour retourMock = new Retour(produit, 1);
-
+    
         System.out.println("Entrez l'ID du retour:");
+        Scanner in = new Scanner(System.in);
         String retourIdStr = in.nextLine();
         int retourId = Integer.parseInt(retourIdStr);
-        if (retourId == retourMock.id) {
-            retourMock.changerStatus("livré");
+    
+        Retour retourToConfirm = null;
+        for (Retour retour : retours) {
+            if (retour.id == retourId) {
+                retourToConfirm = retour;
+                break;
+            }
+        }
+    
+        if (retourToConfirm != null) {
+            retourToConfirm.changerStatus("livré");
+            retourRepo.put(retourToConfirm);
             System.out.println("La réception du retour a été confirmée.");
         } else {
             System.out.println("Aucun retour trouvé avec cet ID.");
         }
-
+    
         System.out.println();
         System.out.println("Appuyez sur n'importe quelle touche pour revenir au menu revendeur.");
         try {
@@ -406,10 +567,15 @@ public class Authentification {
     }
 
     private Acheteur creerNouveauAcheteur(Acheteur a) {
-        return new Acheteur(); //  quand nous aurons une base de données
+        AcheteurRepo acheteurRepo = new AcheteurRepo();
+        acheteurRepo.put(a);
+        return a; 
     }
-
+    
     private Revendeur creerNouveauRevendeur(Revendeur r) {
-        return new Revendeur(); //  quand nous aurons une base de données
+        RevendeurRepo revendeurRepo = new RevendeurRepo();
+        revendeurRepo.put(r);
+        return r;
     }
+    
 }

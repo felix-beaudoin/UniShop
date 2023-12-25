@@ -114,7 +114,18 @@ public class Acheteur {
         this.role = "Acheteur";
     }
 
-   
-
+    @Override
+        public String toString() {
+            return "Acheteur{" +
+                    "nom='" + nom + '\'' +
+                    ", prenom='" + prenom + '\'' +
+                    ", pseudo='" + pseudo + '\'' +
+                    ", email='" + email + '\'' +
+                    ", adresse='" + adresse + '\'' +
+                    ", role='" + role + '\'' +
+                    ", telephone='" + telephone + '\'' +
+                    ", points=" + points +
+                    '}';
+        }
 
 }

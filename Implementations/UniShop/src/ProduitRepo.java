@@ -79,8 +79,4 @@ public class ProduitRepo {
 
         return produits;
     }
-
-
-
-
 }

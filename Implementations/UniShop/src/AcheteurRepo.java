@@ -26,7 +26,6 @@ public class AcheteurRepo {
         return null;
     }
 
-
     public void put(Acheteur a) {
 
 
@@ -42,8 +41,4 @@ public class AcheteurRepo {
         }
 
     }
-
-
-
-
 }
