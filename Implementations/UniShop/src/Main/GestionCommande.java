@@ -102,6 +102,7 @@ public class GestionCommande extends Authentification {
                 System.out.println("Retournez le produit à échanger à l'address suivante: 3200, rue Jean-Brillant ");
                 System.out.println("La demande sera annulée après 30 jours si le produit n'est pas reçu, merci.");
                 System.out.println("======================================");
+                acheteur.Notifications.push("Le produit " + produitE.nom + " est en cours d'échange.");
                 menu();
             } else if (difference > 0) {
                 System.out.println("======================================");
@@ -110,6 +111,8 @@ public class GestionCommande extends Authentification {
                 System.out.println("Retournez le produit à échanger à l'address suivante: 3200, rue Jean-Brillant ");
                 System.out.println("La demande sera annulée après 30 jours si le produit n'est pas reçu, merci.");
                 System.out.println("======================================");
+                acheteur.Notifications.push("Le produit " + produitE.nom + " est en cours d'échange.");
+
                 menu();
             } else {
                 System.out.println("======================================");
@@ -118,6 +121,8 @@ public class GestionCommande extends Authentification {
                 System.out.println("Retournez le produit à échanger à l'address suivante: 3200, rue Jean-Brillant ");
                 System.out.println("La demande sera annulée après 30 jours si le produit n'est pas reçu, merci.");
                 System.out.println("======================================");
+                acheteur.Notifications.push("Le produit " + produitE.nom + " est en cours d'échange.");
+
                 menu();
             }
         }
@@ -151,6 +156,9 @@ public class GestionCommande extends Authentification {
             System.out.println("Retournez le produit à l'address suivante: 3200, rue Jean-Brillant ");
             System.out.println("La demande sera annulée après 30 jours si le produit n'est pas reçu, merci.");
             System.out.println("======================================");
+            
+            acheteur.Notifications.push("Le produit " + produitE.nom + " a été retourné.");
+
             // misAjourInventaireR(produitE); mis à jour de l'inventaire du revendeur
             menu();
         }
@@ -183,6 +191,8 @@ public class GestionCommande extends Authentification {
                         System.out.println("La commande " + code + " a été annulée!");
                         System.out.println("Un montant de " + catalogue[0].prix/100.0 + " a été remboursé à votre carte!");
                         System.out.println("======================================");
+                        acheteur.Notifications.push("La commande " + code + " a été annulée.");
+
                         menu();break;
                     case 2:
                         menu();break;

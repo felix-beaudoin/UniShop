@@ -43,6 +43,16 @@ public class AfficherCatalogue {
                     Produit p = produitHashMap.get(num);
                     if (p != null) {
                         p.afficher();
+                        System.out.println("Voulez-vous liker ce produit? (y/n)");
+                        String inp2 = in.nextLine();
+                        if (inp2.equals("y")) {
+                            p.nbLikes+=1;
+                            p.Revendeur.Notifications.push("Votre produit " + p.nom + " a été liké par " + acheteur.pseudo);
+                            acheteur.RevendeurLike.add(p.Revendeur.nom);
+                        }
+                        if(!inp2.equals("y") && !inp2.equals("n")){
+                            System.out.println("Choix non comprix, Voulez-vous liker ce produit ? (y/n)");
+                        }
                     } else {
                         System.out.println("Choix non comprix, quel produit voulez-vous regarder?");
                     }

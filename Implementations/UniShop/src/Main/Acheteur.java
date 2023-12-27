@@ -3,11 +3,14 @@ package Main;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class Acheteur {
 
     String nom, prenom, pseudo, email, adresse, role, telephone;
     int points;
+    ArrayList<String> RevendeurLike = new ArrayList<String>();
+    Stack<String> Notifications = new Stack<String>();
 
     public Acheteur(String nom, String prenom, String pseudo, String email, String adresse, String telephone) {
         this.nom = nom;
@@ -49,7 +52,16 @@ public class Acheteur {
             System.out.println("Points: " + acheteur.getPoints());
         }
     }
-
+    public void afficherNotifications(Acheteur a){
+        if(!a.Notifications.isEmpty()){
+            System.out.println("Voici vos notifications : ");
+            for (String notification : a.Notifications) {
+                System.out.println(notification);
+            }
+        } else {
+            System.out.println("Vous n'avez pas de notifications.");
+        }
+    }
     
 
     public void setNom(String nom) {
