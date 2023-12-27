@@ -129,7 +129,10 @@ public class Authentification {
         System.out.println("4. Afficher les listes des acheteurs");
         System.out.println("5. Afficher le profil d'un acheteur");
         System.out.println("6. Afficher les évaluations d'un produit");
-        System.out.println("6. Rechercher revendeur par pseudo");
+        System.out.println("7. Rechercher revendeur par pseudo");
+        System.out.println("8. Rechercher acheteur par pseudo");
+        System.out.println("9. Modifier son profil");
+        System.out.println("10.Supprimer un produit");
         System.out.println("0. Quitter");
 
         while (running) {
@@ -146,6 +149,7 @@ public class Authentification {
                         break;
                     case 3:
                         ConfirmerReception(revendeur, revendeurRepo);
+
                         break;
                     case 4:
                        // Acheteur.getListeAcheteur(null);
@@ -159,9 +163,19 @@ public class Authentification {
                     case 7:
                         RechercherAcheteur(revendeur);
                         break;
+                    case 8:
+                        RechercherAcheteur(revendeur);
+                        break;
+                    case 9:
+                        modifierProfil(revendeur);
+                        break;
+                    case 10: 
+                        SupprimerProduit(revendeur);
+                        break;
                     case 0:
                         running = false;
                         break;
+                    
                     default:
                         System.out.println("Option invalide. Veuillez entrer un nombre entre 0 et 3.");
                 }
@@ -546,6 +560,7 @@ public class Authentification {
             retourToConfirm.changerStatus("livré");
             retourRepo.put(retourToConfirm);
             System.out.println("La réception du retour a été confirmée.");
+            
         } else {
             System.out.println("Aucun retour trouvé avec cet ID.");
         }
@@ -579,5 +594,96 @@ public class Authentification {
         revendeurRepo.put(r);
         return r;
     }
+    private void modifierProfil(Revendeur r){
+        System.out.println("======================================");
+        System.out.println("Modifier son profil");
+        System.out.println("======================================");
+        System.out.println();
+        System.out.println("Que voulez vous modifier");
+        System.out.println("1. Nom");
+        System.out.println("2. Adresse");
+        System.out.println("3. Email");
+        System.out.println("4. Telephone");
+        System.out.println("0. Retour");
+
+        while (running) {
+            try {
+                String input = in.nextLine();
+                int option = Integer.parseInt(input);
+
+                switch (option) {
+                    case 1:
+                        System.out.println("Entrez le nouveau nom : ");
+                        String nom = in.nextLine();
+                        r.setNom(nom);
+                        break;
+                    case 2:
+                        System.out.println("Entrez la nouvelle adresse : ");
+                        String adresse = in.nextLine();
+                        r.setAdresse(adresse);
+                        break;
+                    case 3:
+                        System.out.println("Entrez le nouvel email : ");
+                        String email = in.nextLine();
+                        r.setEmail(email);
+                        break;
+                    case 4:
+                        System.out.println("Entrez le nouveau telephone : ");
+                        String telephone = in.nextLine();
+                        boolean telephoneLoop = true;
+                        while(telephoneLoop) {
+                            if (telephone.matches("\\d{3}-\\d{3}-\\d{4}")) {
+                            telephoneLoop = false;
+                        }else {
+                            System.out.println("Votre numéro doit être dans le format 514-123-1234, veuillez réessayez.");
+                            telephone = in.nextLine();
+                        }
+                    }
+                        r.setTelephone(telephone);
+                    break;
+                    case 0:
+                        running = false;
+                        break;
+                    default:
+                        System.out.println("Option invalide. Veuillez entrer un nombre entre 0 et 4.");
+                }
+            } catch (NumberFormatException nfe) {
+                System.out.println("Entrée invalide. Veuillez entrer un nombre entier.");
+            }
+        }
+    }
+    private void SupprimerProduit(Revendeur r){
+        ProduitRepo produitRepo = new ProduitRepo();
+        LinkedList<Produit> produits = produitRepo.get();
+        System.out.println("======================================");
+        System.out.println("Supprimer un produit");
+        System.out.println("======================================");
+        System.out.println();
+        System.out.println("Entrez l'ID du produit à supprimer:");
+        Scanner in = new Scanner(System.in);
+        String inp = in.nextLine();
+        int id = Integer.parseInt(inp);
+        boolean produitFound = false;
+        for (Produit p : produits) {
+            if (p.id == id) {
+                produitFound = true;
+                produits.remove(p);
+                System.out.println("Produit supprimé avec succès!");
+                break;
+            }
+        }
+        if (!produitFound) {
+            System.out.println("Aucun produit trouvé avec cet ID.");
+        }
+        System.out.println();
+        System.out.println("Appuyez sur n'importe quelle touche pour revenir au menu revendeur.");
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        connexionRevendeur(r);
+    }
+
     
 }

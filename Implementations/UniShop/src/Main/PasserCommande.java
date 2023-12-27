@@ -226,6 +226,8 @@ public class PasserCommande extends Authentification{
         System.out.println("Votre commande a été confirmée,");
         System.out.println("Consultez l'état de votre commande avec le code suivant: " + uuid);
         System.out.println("======================================");
+
+        acheteur.Notifications.push("Votre commande a été confirmée, consultez l'état de votre commande avec le code suivant: " + uuid);
     }
 
     private Produit[] fetchCatalogue(){ //pris de AfficherCatalogue pour tester méthode d'ajout.

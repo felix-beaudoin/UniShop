@@ -115,6 +115,7 @@ public class AfficherProduit {
         Scanner in = new Scanner(System.in);
         String commentaire = in.nextLine();
         p.commentaires.add(new Commentaire(a, commentaire));
+        p.Revendeur.Notifications.push("Votre produit " + p.nom + " a été commenté par " + a.pseudo);
     }
 
     public void acheterProduit() {

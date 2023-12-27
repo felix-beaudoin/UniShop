@@ -14,7 +14,9 @@ public class Commentaire {
     public void likeCommentaire(AcheteurRepo acheteurRepo) {
         nbLikes++;
         a.points += 10;
+        a.Notifications.push("Une personne a liké votre commentaire");
         acheteurRepo.put(a);
+        
     }
     
     public void signaler(AcheteurRepo acheteurRepo) {
