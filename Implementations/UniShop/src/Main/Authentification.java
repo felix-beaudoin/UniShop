@@ -50,6 +50,19 @@ public class Authentification {
      public void connexionAcheteur(Acheteur acheteur) {
         AcheteurRepo acheteurRepo = new AcheteurRepo();
         LinkedList<Acheteur> acheteurs = acheteurRepo.get();
+           if (acheteur.pseudo == null){
+            for (Acheteur a : acheteurs) {
+                if (a.pseudo.equals(acheteur.pseudo)) {
+                    acheteur = a;
+                    break;
+                }
+            }
+        }
+
+        if (acheteur.pseudo == null){
+            System.out.println("Acheteur Pseudo non trouvé. Veuillez essayer à nouveau.");
+            return;
+        }
 
 
 
