@@ -47,31 +47,19 @@ public class Authentification {
         }
     }
 
-    public void connexionAcheteur(Acheteur acheteur) {
+     public void connexionAcheteur(Acheteur acheteur) {
         AcheteurRepo acheteurRepo = new AcheteurRepo();
         LinkedList<Acheteur> acheteurs = acheteurRepo.get();
 
-        if (acheteur.pseudo == null){
-            for (Acheteur a : acheteurs) {
-                if (a.pseudo.equals(acheteur.pseudo)) {
-                    acheteur = a;
-                    break;
-                }
-            }
-        }
 
-        if (acheteur.pseudo == null){
-            System.out.println("Acheteur Pseudo non trouvé. Veuillez essayer à nouveau.");
-            return;
-        }
+
 
         System.out.println("Vous êtes connecté en tant qu'acheteur: " + acheteur.pseudo);
         System.out.println("Sélectionnez l'option désirée:");
         System.out.println("1. Afficher le catalogue");
-        System.out.println("2. Afficher le panier d'achat");
-        System.out.println("3. Passer une commande");
-        System.out.println("4. Gestion de commandes");
-        System.out.println("5. Rechercher revendeur par pseudo");
+        System.out.println("2. Magasin (Panier d'Achat, Payer, Gérer les commandes)");
+        System.out.println("3. Rechercher revendeur par pseudo");
+        System.out.println("4. Modifier son profile");
         System.out.println("0. Quitter");
 
         while (running) {
@@ -85,13 +73,11 @@ public class Authentification {
                     case 1:
                         Catalogue(acheteur); break;
                     case 2:
-                        Panier(acheteur); break;
+                        Magasin(acheteur); break;
                     case 3:
-                        Commande(acheteur); break;
-                    case 4:
-                        Gestion(acheteur); break;
-                    case 5:
                         RechercherAcheteur(acheteur); break;
+                    case 4:
+                        modifierProfilAcheteur(acheteur);break;
                     case 0:
                         running = false; break;
                     default:
@@ -272,17 +258,10 @@ public class Authentification {
     private void Catalogue(Acheteur a) {
         AfficherCatalogue afficherCatalogue = new AfficherCatalogue(a);
     }
-    private void Panier(Acheteur a){
-        PanierAchat panier = new PanierAchat(a);
-        panier.panierAchat();
-    }
-    private void Commande(Acheteur a){
-        PasserCommande commande = new PasserCommande(a);
-        commande.passerCommande();
-    }
-    private void Gestion(Acheteur a){
-        GestionCommande gestion = new GestionCommande(a);
-        gestion.menu();
+   private void Magasin(Acheteur a){
+        Magasin magasin = new Magasin(a);
+        magasin.menuMagasin();
+
     }
 
     private void OffrirProduit(Revendeur revendeur, RevendeurRepo revendeurRepo){
@@ -641,6 +620,70 @@ public class Authentification {
                     }
                         r.setTelephone(telephone);
                     break;
+                    case 0:
+                        running = false;
+                        break;
+                    default:
+                        System.out.println("Option invalide. Veuillez entrer un nombre entre 0 et 4.");
+                }
+            } catch (NumberFormatException nfe) {
+                System.out.println("Entrée invalide. Veuillez entrer un nombre entier.");
+            }
+        }
+    }
+     private void modifierProfilAcheteur(Acheteur a){
+
+        while (running) {
+            System.out.println("======================================");
+            System.out.println("Modifier son profil");
+            System.out.println("======================================");
+            System.out.println();
+            System.out.println("Que voulez vous modifier");
+            System.out.println("1. Prénom");
+            System.out.println("2. Nom");
+            System.out.println("3. Adresse");
+            System.out.println("4. Email");
+            System.out.println("5. Telephone");
+            System.out.println("0. Retour");
+            try {
+                String input = in.nextLine();
+                int option = Integer.parseInt(input);
+
+                switch (option) {
+                    case 1:
+                        System.out.println("Entrez le nouveau prénom : ");
+                        String prenom = in.nextLine();
+                        a.setPrenom(prenom);
+                        break;
+                    case 2:
+                        System.out.println("Entrez le nouveau nom : ");
+                        String nom = in.nextLine();
+                        a.setNom(nom);
+                        break;
+                    case 3:
+                        System.out.println("Entrez la nouvelle adresse : ");
+                        String adresse = in.nextLine();
+                        a.setAdresse(adresse);
+                        break;
+                    case 4:
+                        System.out.println("Entrez le nouvel email : ");
+                        String email = in.nextLine();
+                        a.setEmail(email);
+                        break;
+                    case 5:
+                        System.out.println("Entrez le nouveau telephone : ");
+                        String telephone = in.nextLine();
+                        boolean telephoneLoop = true;
+                        while(telephoneLoop) {
+                            if (telephone.matches("\\d{3}-\\d{3}-\\d{4}")) {
+                                telephoneLoop = false;
+                            }else {
+                                System.out.println("Votre numéro doit être dans le format 514-123-1234, veuillez réessayez.");
+                                telephone = in.nextLine();
+                            }
+                        }
+                        a.setTelephone(telephone);
+                        break;
                     case 0:
                         running = false;
                         break;
