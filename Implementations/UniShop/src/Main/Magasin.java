@@ -1,7 +1,6 @@
 package Main;
 
 import java.util.*;
-
 public class Magasin extends Authentification {
     Acheteur acheteur;
 

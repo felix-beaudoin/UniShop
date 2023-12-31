@@ -1,12 +1,13 @@
 package Main;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Stack;
 
-public class Acheteur {
+public class Acheteur implements Serializable {
 
     String nom, prenom, pseudo, email, adresse, role, telephone;
     int points;

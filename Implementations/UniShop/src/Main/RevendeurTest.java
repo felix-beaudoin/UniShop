@@ -7,6 +7,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.LinkedList;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class RevendeurTest {
 
     @Test

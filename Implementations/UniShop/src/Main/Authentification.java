@@ -50,19 +50,20 @@ public class Authentification {
     public void connexionAcheteur(Acheteur acheteur, Magasin magasin) {
         AcheteurRepo acheteurRepo = new AcheteurRepo();
         LinkedList<Acheteur> acheteurs = acheteurRepo.get();
+        Scanner scanner = new Scanner(System.in);
+        while (acheteur.pseudo == null){
+            System.out.println("Entrez votre pseudo: ");
+            String inputPseudo = scanner.nextLine();
 
-        if (acheteur.pseudo == null){
             for (Acheteur a : acheteurs) {
-                if (a.pseudo.equals(acheteur.pseudo)) {
+                if (a.pseudo.equals(inputPseudo)) {
                     acheteur = a;
                     break;
                 }
             }
-        }
-
-        if (acheteur.pseudo == null){
-            System.out.println("Acheteur Pseudo non trouvé. Veuillez essayer à nouveau.");
-            return;
+            if (acheteur.pseudo == null){
+                System.out.println("Acheteur Pseudo non trouvé. Veuillez essayer à nouveau.");
+            }
         }
 
 
@@ -111,19 +112,20 @@ public class Authentification {
     private void connexionRevendeur(Revendeur revendeur) {
         RevendeurRepo revendeurRepo = new RevendeurRepo();
         LinkedList<Revendeur> revendeurs = revendeurRepo.get();
+        Scanner scanner = new Scanner(System.in);
+        while (revendeur.nom == null){
+            System.out.println("Entrez votre nom: ");
+            String inputPseudo = scanner.nextLine();
 
-        if (revendeur.nom == null){
             for (Revendeur r : revendeurs) {
-                if (r.nom.equals(revendeur.nom)) {
+                if (r.nom.equals(inputPseudo)) {
                     revendeur = r;
                     break;
                 }
             }
-        }
-
-        if (revendeur.nom == null){
-            System.out.println("Revendeur nom non trouvé. Veuillez essayer à nouveau.");
-            return;
+            if (revendeur.nom == null){
+                System.out.println("Revendeur nom non trouvé. Veuillez essayer à nouveau.");
+            }
         }
 
         System.out.println("Vous êtes connecté en tant que revendeur: " + revendeur.nom);

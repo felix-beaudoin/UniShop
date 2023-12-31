@@ -1,47 +1,36 @@
 package Main;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.*;
+import java.lang.reflect.Type;
 import java.util.LinkedList;
 
 public class RevendeurRepo {
+    private static final String FILE_NAME = "Revendeurs.json";
+    private static final Gson GSON = new Gson();
 
     public LinkedList<Revendeur> get() {
-
-        try {
-            FileInputStream fileIn = new FileInputStream("Revendeurs.json");
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-
-            try {
-                var listeRevendeurs = (LinkedList<Revendeur>) in.readObject();
-                return listeRevendeurs;
-            } catch (ClassNotFoundException c) {
-                c.printStackTrace();
-            }
-
-            in.close();
-            fileIn.close();
-
-        } catch (IOException i) {
-            i.printStackTrace();
+        try (FileReader reader = new FileReader(FILE_NAME)) {
+            Type listType = new TypeToken<LinkedList<Revendeur>>(){}.getType();
+            return GSON.fromJson(reader, listType);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
         return null;
     }
 
-
-    public void put(Revendeur r) {
-
-
-        try {
-            FileOutputStream fileOut = new FileOutputStream("Revendeurs.json");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject( get().add(r) );
-            out.close();
-            fileOut.close();
-
-        } catch (IOException i) {
-            i.printStackTrace();
+    public void put(Revendeur a) {
+        LinkedList<Revendeur> revendeurs = get();
+        if (revendeurs == null) {
+            revendeurs = new LinkedList<>();
         }
-
+        revendeurs.add(a);
+        try (FileWriter writer = new FileWriter(FILE_NAME)) {
+            GSON.toJson(revendeurs, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
