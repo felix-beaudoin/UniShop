@@ -1,10 +1,7 @@
 package Main;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class Authentification {
@@ -47,10 +44,10 @@ public class Authentification {
         }
     }
 
-     public void connexionAcheteur(Acheteur acheteur) {
+    public void connexionAcheteur(Acheteur acheteur) {
         AcheteurRepo acheteurRepo = new AcheteurRepo();
         LinkedList<Acheteur> acheteurs = acheteurRepo.get();
-           if (acheteur.pseudo == null){
+         if (acheteur.pseudo == null){
             for (Acheteur a : acheteurs) {
                 if (a.pseudo.equals(acheteur.pseudo)) {
                     acheteur = a;
@@ -66,13 +63,13 @@ public class Authentification {
 
 
 
-
         System.out.println("Vous êtes connecté en tant qu'acheteur: " + acheteur.pseudo);
         System.out.println("Sélectionnez l'option désirée:");
         System.out.println("1. Afficher le catalogue");
         System.out.println("2. Magasin (Panier d'Achat, Payer, Gérer les commandes)");
-        System.out.println("3. Rechercher revendeur par pseudo");
+        System.out.println("3. Rechercher acheteur par pseudo (Suivre)");
         System.out.println("4. Modifier son profile");
+        System.out.println("5. Voir ses points de fidélité");
         System.out.println("0. Quitter");
 
         while (running) {
@@ -91,6 +88,8 @@ public class Authentification {
                         RechercherAcheteur(acheteur); break;
                     case 4:
                         modifierProfilAcheteur(acheteur);break;
+                    case 5:
+                        pointFidelite(acheteur);break;
                     case 0:
                         running = false; break;
                     default:
@@ -151,10 +150,10 @@ public class Authentification {
 
                         break;
                     case 4:
-                       // Acheteur.getListeAcheteur(null);
-                       break;
+                        // Acheteur.getListeAcheteur(null);
+                        break;
                     case 5:
-                        //Acheteur.getProfilAcheteur(null);  
+                        //Acheteur.getProfilAcheteur(null);
                         break;
                     case 6:
                         AfficherEvaluationProduit(revendeur, revendeurRepo);
@@ -168,13 +167,13 @@ public class Authentification {
                     case 9:
                         modifierProfil(revendeur);
                         break;
-                    case 10: 
+                    case 10:
                         SupprimerProduit(revendeur);
                         break;
                     case 0:
                         running = false;
                         break;
-                    
+
                     default:
                         System.out.println("Option invalide. Veuillez entrer un nombre entre 0 et 3.");
                 }
@@ -271,11 +270,22 @@ public class Authentification {
     private void Catalogue(Acheteur a) {
         AfficherCatalogue afficherCatalogue = new AfficherCatalogue(a);
     }
-   private void Magasin(Acheteur a){
+    private void Magasin(Acheteur a){
         Magasin magasin = new Magasin(a);
         magasin.menuMagasin();
 
     }
+private void pointFidelite(Acheteur a){
+    System.out.println("Vous avez: " + a.getPoints() + " points!");
+    System.out.println();
+    System.out.println("Appuyez sur n'importe quelle touche pour revenir au menu acheteur.");
+    try {
+        System.in.read();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    connexionAcheteur(a);
+}
 
     private void OffrirProduit(Revendeur revendeur, RevendeurRepo revendeurRepo){
         System.out.println("======================================");
@@ -398,13 +408,13 @@ public class Authentification {
     private void AfficherEvaluationProduit(Revendeur revendeur, RevendeurRepo revendeurRepo){
         ProduitRepo produitRepo = new ProduitRepo();
         LinkedList<Produit> produits = produitRepo.get();
-    
+
         int inputId = -1;
         while (inputId == -1) {
             System.out.println("Veuillez entrer l'ID du produit:");
             Scanner in = new Scanner(System.in);
             String inp = in.nextLine();
-    
+
             try {
                 inputId = Integer.parseInt(inp);
                 System.out.println("ID du produit: " + inputId);
@@ -412,7 +422,7 @@ public class Authentification {
                 System.out.println("Entrée invalide. Veuillez entrer un nombre entier.");
             }
         }
-    
+
         boolean produitFound = false;
         for (Produit produit : produits) {
             if (produit.id == inputId) {
@@ -424,11 +434,11 @@ public class Authentification {
                 break;
             }
         }
-    
+
         if (!produitFound) {
             System.out.println("Aucun produit trouvé avec cet ID.");
         }
-    
+
         System.out.println();
         System.out.println("Appuyez sur n'importe quelle touche pour revenir au menu revendeur.");
         try {
@@ -464,11 +474,11 @@ public class Authentification {
     private void RechercherAcheteur(Revendeur r) {
         AcheteurRepo acheteurRepo = new AcheteurRepo();
         LinkedList<Acheteur> acheteurs = acheteurRepo.get();
-    
+
         System.out.println("Veuillez entrer le pseudo de l'acheteur:");
         Scanner in = new Scanner(System.in);
         String pseudo = in.nextLine();
-    
+
         Acheteur acheteurRecherche = null;
         for (Acheteur acheteur : acheteurs) {
             if (acheteur.pseudo.equals(pseudo)) {
@@ -476,14 +486,14 @@ public class Authentification {
                 break;
             }
         }
-    
+
         if (acheteurRecherche != null) {
             System.out.println("Acheteur trouvé: " + acheteurRecherche.pseudo);
             System.out.println(acheteurRecherche.toString());
         } else {
             System.out.println("Aucun acheteur trouvé avec ce pseudo.");
         }
-    
+
         System.out.println();
         System.out.println("Appuyez sur n'importe quelle touche pour revenir au menu revendeur.");
         try {
@@ -497,11 +507,11 @@ public class Authentification {
     private void RechercherAcheteur(Acheteur a) {
         AcheteurRepo acheteurRepo = new AcheteurRepo();
         LinkedList<Acheteur> acheteurs = acheteurRepo.get();
-    
+
         System.out.println("Veuillez entrer le pseudo de l'acheteur:");
         Scanner in = new Scanner(System.in);
         String pseudo = in.nextLine();
-    
+
         Acheteur acheteurRecherche = null;
         for (Acheteur acheteur : acheteurs) {
             if (acheteur.pseudo.equals(pseudo)) {
@@ -509,14 +519,23 @@ public class Authentification {
                 break;
             }
         }
-    
+
         if (acheteurRecherche != null) {
             System.out.println("Acheteur trouvé: " + acheteurRecherche.pseudo);
-            System.out.println(acheteurRecherche.toString());
+            System.out.println();
+            System.out.println("Voulez vous suivre cet utilisateur? (Y/N)");
+            String reponse = in.nextLine();
+            if(reponse.equals("Y")){
+                System.out.println("Vous avez suivi l'utilisateur: " + acheteurRecherche.pseudo);
+                System.out.println();
+                a.UtilisateurSuivi.add(acheteurRecherche.pseudo);
+                acheteurRecherche.SuiviPar.add(a.pseudo);
+                acheteurRecherche.Notifications.push("Vous avez été suivi par l'utilisateur: " + a.pseudo);
+            }
         } else {
             System.out.println("Aucun acheteur trouvé avec ce pseudo.");
         }
-    
+
         System.out.println();
         System.out.println("Appuyez sur n'importe quelle touche pour revenir au menu revendeur.");
         try {
@@ -530,16 +549,16 @@ public class Authentification {
     public void ConfirmerReception(Revendeur revendeur, RevendeurRepo revendeurRepo){
         RetourRepo retourRepo = new RetourRepo();
         LinkedList<Retour> retours = retourRepo.get();
-    
+
         System.out.println("======================================");
         System.out.println("Confirmer la reception d'un retour");
         System.out.println("======================================");
-    
+
         System.out.println("Entrez l'ID du retour:");
         Scanner in = new Scanner(System.in);
         String retourIdStr = in.nextLine();
         int retourId = Integer.parseInt(retourIdStr);
-    
+
         Retour retourToConfirm = null;
         for (Retour retour : retours) {
             if (retour.id == retourId) {
@@ -547,16 +566,16 @@ public class Authentification {
                 break;
             }
         }
-    
+
         if (retourToConfirm != null) {
             retourToConfirm.changerStatus("livré");
             retourRepo.put(retourToConfirm);
             System.out.println("La réception du retour a été confirmée.");
-            
+
         } else {
             System.out.println("Aucun retour trouvé avec cet ID.");
         }
-    
+
         System.out.println();
         System.out.println("Appuyez sur n'importe quelle touche pour revenir au menu revendeur.");
         try {
@@ -578,9 +597,9 @@ public class Authentification {
     private Acheteur creerNouveauAcheteur(Acheteur a) {
         AcheteurRepo acheteurRepo = new AcheteurRepo();
         acheteurRepo.put(a);
-        return a; 
+        return a;
     }
-    
+
     private Revendeur creerNouveauRevendeur(Revendeur r) {
         RevendeurRepo revendeurRepo = new RevendeurRepo();
         revendeurRepo.put(r);
@@ -625,14 +644,14 @@ public class Authentification {
                         boolean telephoneLoop = true;
                         while(telephoneLoop) {
                             if (telephone.matches("\\d{3}-\\d{3}-\\d{4}")) {
-                            telephoneLoop = false;
-                        }else {
-                            System.out.println("Votre numéro doit être dans le format 514-123-1234, veuillez réessayez.");
-                            telephone = in.nextLine();
+                                telephoneLoop = false;
+                            }else {
+                                System.out.println("Votre numéro doit être dans le format 514-123-1234, veuillez réessayez.");
+                                telephone = in.nextLine();
+                            }
                         }
-                    }
                         r.setTelephone(telephone);
-                    break;
+                        break;
                     case 0:
                         running = false;
                         break;
@@ -644,7 +663,7 @@ public class Authentification {
             }
         }
     }
-     private void modifierProfilAcheteur(Acheteur a){
+    private void modifierProfilAcheteur(Acheteur a){
 
         while (running) {
             System.out.println("======================================");
@@ -698,7 +717,7 @@ public class Authentification {
                         a.setTelephone(telephone);
                         break;
                     case 0:
-                        running = false;
+                        connexionAcheteur(a);
                         break;
                     default:
                         System.out.println("Option invalide. Veuillez entrer un nombre entre 0 et 4.");
@@ -741,5 +760,5 @@ public class Authentification {
         connexionRevendeur(r);
     }
 
-    
+
 }
