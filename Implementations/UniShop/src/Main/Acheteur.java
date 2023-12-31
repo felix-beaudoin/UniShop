@@ -12,6 +12,8 @@ public class Acheteur {
     int points;
     ArrayList<String> RevendeurLike = new ArrayList<String>();
     Stack<String> Notifications = new Stack<String>();
+    ArrayList<String> UtilisateurSuivi = new ArrayList<String>();
+    ArrayList<String> SuiviPar = new ArrayList<String>();
 
     public Acheteur(String nom, String prenom, String pseudo, String email, String adresse, String telephone) {
         this.nom = nom;
@@ -70,7 +72,17 @@ public class Acheteur {
             System.out.println("Vous n'avez pas de notifications.");
         }
     }
-    
+    public void gererSuiveur(){
+        System.out.println("Voici la liste des utilisateurs qui vous suivent:");
+        if(SuiviPar.size() == 0){
+            System.out.println("Aucun utilisateur vous suit");
+        }
+        else {
+            for (int i = 0; i < SuiviPar.size(); i++){
+                System.out.println(i+1 + ". " + SuiviPar.get(i));
+            }
+        }
+    }
 
     public void setNom(String nom) {
         this.nom = nom;
