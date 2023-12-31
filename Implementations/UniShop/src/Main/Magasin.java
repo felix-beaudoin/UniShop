@@ -4,6 +4,8 @@ import java.util.*;
 
 public class Magasin extends Authentification {
     Acheteur acheteur;
+
+    Magasin m;
     Produit[] catalogue;
      List<Produit> panier = new ArrayList<>();
     public List<Commande> listeCommande = new ArrayList<>();
@@ -11,16 +13,15 @@ public class Magasin extends Authentification {
     String[] liensMedia;
 
     Magasin(Acheteur a){
-        acheteur = a;
+        this.acheteur = a;
     }
     private int total;
     private int point;
 
-
     public void setTotal(int newTotal) {
         this.total = newTotal;
     }
-
+    public void setMagasin(Magasin magasin){this.m = magasin;}
     public int getTotal() {
         return total;
     }
@@ -57,23 +58,29 @@ public class Magasin extends Authentification {
 
                 switch (option) {
                     case 1:
-                        ajouterProduit(); repeat = false; break;
+                        repeat = false;
+                        ajouterProduit(); break;
                     case 2:
-                        retirerProduit(); repeat = false; break;
+                        repeat = false;
+                        retirerProduit(); break;
                     case 3:
-                        voirPanier(); repeat = false; break;
+                        repeat = false;
+                        voirPanier(); break;
                     case 4:
                         if(getTotal() == 0){
                             System.out.println("!!!Le panier est vide, ajouter des produits avant de commander!!!");
                             System.out.println();
                             menuMagasin();
                         }
-                        passerCommande(); repeat = false; break;
+                        repeat = false;
+                        passerCommande(); break;
                     case 5:
-                        menuGestion(); repeat = false; break;
+                        repeat = false;
+                        menuGestion(); break;
 
                     case 0:
-                        connexionAcheteur(acheteur);repeat = false;  break;
+                        repeat = false;
+                        connexionAcheteur(acheteur,m); break;
                     default:
                         System.out.println("!!!Option invalide. Veuillez entrer un nombre entier entre 0 et 3!!!");
                 }
@@ -186,15 +193,19 @@ public class Magasin extends Authentification {
                         case 1:
                             if (panier.size() == 0) {
                                 System.out.println("!!!Votre panier est vide!!!");
+                                repeat = false;
                                 passerCommande();break;
                             }
                             else {
+                                repeat = false;
                                 commande();
                                 break;
                             }
                         case 2:
+                            repeat = false;
                             infoProfil();break;
                         case 0:
+                            repeat = false;
                             menuMagasin();break;
                         default:
                             System.out.println("!!!Option invalide. Veuillez entrer un nombre entier entre 0 et 2!!!");
@@ -234,9 +245,11 @@ public class Magasin extends Authentification {
 
                 switch (option) {
                     case 1:
-                        payer();repeat=false;break;
+                        repeat = false;
+                        payer();break;
                     case 2:
-                        changerAdress();repeat=false;break;
+                        repeat = false;
+                        changerAdress();break;
                     default:
                         System.out.println("!!!Option invalide. Veuillez entrer 1 ou 2!!!");
 
@@ -272,8 +285,10 @@ public class Magasin extends Authentification {
 
                 switch (option) {
                     case 1:
+                        repeat = false;
                         changerAdress();break;
                     case 2:
+                        repeat = false;
                         passerCommande();break;
                     default:
                         System.out.println("!!!Option invalide. Veuillez entrer 1 ou 2!!!");
@@ -307,9 +322,11 @@ public class Magasin extends Authentification {
 
                 switch (option) {
                     case 1:
-                        confirmation();repeat=false;;break;
+                        repeat = false;
+                        confirmation();break;
                     case 2:
-                        commande();repeat=false;break;
+                        repeat = false;
+                        commande();break;
                     default:
                         System.out.println("!!!Option invalide. Veuillez entrer 1 ou 2!!!");
                 }
@@ -432,6 +449,7 @@ public class Magasin extends Authentification {
                                     System.out.println("!!!Il n'y a plus de produit dans la commande!!!");
                                 }
                                 else{
+                                    repeat = false;
                                 echangeCommande(commande, produitCommande);}
                                 break;
                             case 3:
@@ -444,6 +462,7 @@ public class Magasin extends Authentification {
                                     System.out.println("!!!Il n'y a plus de produit dans la commande!!!");
                                 }
                                 else{
+                                    repeat = false;
                                 annulerCommande(commande, produitCommande);}
                                 break;
                             case 5:
@@ -494,6 +513,7 @@ public class Magasin extends Authentification {
             Produit produitE = commande.get(input);
             commande.remove(produitE);
             c.setProduitCommande(commande);
+            acheteur.setPoints(acheteur.getPoints() - produitE.pointsBonus);
 
 
             System.out.println("Quel produit(s) voulez-vous recevoir en échange?");
@@ -519,7 +539,7 @@ public class Magasin extends Authentification {
                 System.out.println("La demande sera annulée après 30 jours si le produit n'est pas reçu, merci.");
                 System.out.println("======================================");
                 acheteur.Notifications.push("Le produit " + produitE.nom + " est en cours d'échange.");
-                acheteur.setPoints(getPoint()-points);
+                acheteur.setPoints(acheteur.getPoints()-points);
                 menuGestion();
             } else if (difference > 0) {
                 System.out.println("======================================");
@@ -530,7 +550,7 @@ public class Magasin extends Authentification {
                 System.out.println("La demande sera annulée après 30 jours si le produit n'est pas reçu, merci.");
                 System.out.println("======================================");
                 acheteur.Notifications.push("Le produit " + produitE.nom + " est en cours d'échange.");
-                acheteur.setPoints(getPoint()-points);
+                acheteur.setPoints(acheteur.getPoints()-points);
 
                 menuGestion();
             } else {
@@ -542,7 +562,7 @@ public class Magasin extends Authentification {
                 System.out.println("La demande sera annulée après 30 jours si le produit n'est pas reçu, merci.");
                 System.out.println("======================================");
                 acheteur.Notifications.push("Le produit " + produitE.nom + " est en cours d'échange.");
-                acheteur.setPoints(getPoint()-points);
+                acheteur.setPoints(acheteur.getPoints()-points);
 
                 menuGestion();
             }
@@ -583,7 +603,7 @@ public class Magasin extends Authentification {
             System.out.println("======================================");
 
             acheteur.Notifications.push("Le produit " + produitE.nom + " a été retourné.");
-            acheteur.setPoints(getPoint()-points);
+            acheteur.setPoints(acheteur.getPoints()-points);
 
             menuGestion();
         }
@@ -624,12 +644,13 @@ public class Magasin extends Authentification {
                         System.out.println(c.totalPointsCommande+" points de fidélité ont été déduit.");
                         System.out.println("======================================");
                         acheteur.Notifications.push("La commande " + c.code + " a été annulée.");
-                        acheteur.setPoints(getPoint()-c.totalPointsCommande);
+                        acheteur.setPoints(acheteur.getPoints()-c.totalPointsCommande);
                         commandeActuelle.clear();
                         c.setProduitCommande(commandeActuelle);
-
+                        repeat = false;
                         menuGestion();break;
                     case 2:
+                        repeat = false;
                         menuGestion();break;
                     default:
                         System.out.println("!!!Option invalide. Veuillez entrer 1 ou 2!!!");
@@ -660,8 +681,10 @@ public class Magasin extends Authentification {
                         System.out.println();
                         c.etat = "Livré";
                         acheteur.Notifications.push("L'état de la commande a été changé à --> Livré");
+                        repeat = false;
                         menuGestion();break;
                     case 2:
+                        repeat = false;
                         menuGestion();break;
                     default:
                         System.out.println("!!!Option invalide. Veuillez entrer 1 ou 2!!!");
