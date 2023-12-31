@@ -6,14 +6,22 @@ import java.util.LinkedList;
 public class AcheteurRepo {
 
     public LinkedList<Acheteur> get() {
-
         try {
+
             FileInputStream fileIn = new FileInputStream("Acheteurs.json");
             ObjectInputStream in = new ObjectInputStream(fileIn);
 
             try {
-                var listeAcheteurs = (LinkedList<Acheteur>) in.readObject();
-                return listeAcheteurs;
+
+                try {
+                    var listeAcheteurs = (LinkedList<Acheteur>) in.readObject();
+                    return listeAcheteurs;
+                }catch (EOFException i) {
+                    i.printStackTrace();
+                }
+
+
+
             } catch (ClassNotFoundException c) {
                 c.printStackTrace();
             }
@@ -24,6 +32,7 @@ public class AcheteurRepo {
         } catch (IOException i) {
             i.printStackTrace();
         }
+
 
         return null;
     }

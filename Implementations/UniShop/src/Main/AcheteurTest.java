@@ -60,4 +60,3 @@ public class AcheteurTest {
         assertEquals(expectedOutput, outContent.toString());
     }
 }
-
