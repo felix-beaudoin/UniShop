@@ -5,8 +5,9 @@ import java.util.*;
 public class Magasin extends Authentification {
     Acheteur acheteur;
     Produit[] catalogue;
-    private List<Produit> panier = new ArrayList<>();
-   private HashMap<String,List<Produit>> commande = new HashMap();
+     List<Produit> panier = new ArrayList<>();
+    public List<Commande> listeCommande = new ArrayList<>();
+
     String[] liensMedia;
 
     Magasin(Acheteur a){
@@ -15,9 +16,7 @@ public class Magasin extends Authentification {
     private int total;
     private int point;
 
-    public HashMap<String,List<Produit>> getCommande() {
-        return commande;
-    }
+
     public void setTotal(int newTotal) {
         this.total = newTotal;
     }
@@ -44,8 +43,9 @@ public class Magasin extends Authentification {
             System.out.println("1. Ajouter produit(s)");
             System.out.println("2. Retirer produit(s)");
             System.out.println("3. Voir le panier");
-            System.out.println("4. Passer une commande");
+            System.out.println("4. Passer une commande (Payer)");
             System.out.println("5. Gérer les commandes");
+
             System.out.println("Vous avez un total de " + getTotal()/100.0 + "$ à payer, ce qui vous donnera " + getPoint() + " point(s).");
             System.out.println("0. Retour");
 
@@ -71,6 +71,7 @@ public class Magasin extends Authentification {
                         passerCommande(); repeat = false; break;
                     case 5:
                         menuGestion(); repeat = false; break;
+
                     case 0:
                         connexionAcheteur(acheteur);repeat = false;  break;
                     default:
@@ -183,7 +184,14 @@ public class Magasin extends Authentification {
 
                     switch (option) {
                         case 1:
-                            commande();break;
+                            if (panier.size() == 0) {
+                                System.out.println("!!!Votre panier est vide!!!");
+                                passerCommande();break;
+                            }
+                            else {
+                                commande();
+                                break;
+                            }
                         case 2:
                             infoProfil();break;
                         case 0:
@@ -211,8 +219,7 @@ public class Magasin extends Authentification {
             System.out.println("======================================");
             for (int i = 0; i < panier.size(); i++) {
                 System.out.println(i+1 + ". " + panier.get(i).nom + " (" +panier.get(i).description + ").");
-                setTotal(getTotal() + panier.get(i).prix);
-                setPoint(getPoint() + panier.get(i).pointsBonus);
+
             }
             System.out.println("======================================");
             System.out.println("Pour un total de " + getTotal()/100.0 + "$ et " + getPoint() + " points." );
@@ -355,88 +362,126 @@ public class Magasin extends Authentification {
             changerAdress();
         }
     }
-    private void confirmation(){
+    private void confirmation() {
         String code = generateRandomString();
         System.out.println("======================================");
         System.out.println("Votre commande a été confirmée,");
-        System.out.println("Consultez l'état de votre commande avec le code suivant: " + code);
+        System.out.println("Consultez l'état de votre commande avec le code suivant: " + code + " (copiez le)");
         System.out.println("======================================");
-        List<Produit> panierActuel = panier;
-        System.out.println(panierActuel);
-        commande.put(code,panierActuel);
+        List<Produit> nouvelleCommande = new ArrayList<>(panier);
+        Commande commande = new Commande(acheteur,code, "En attente", nouvelleCommande,getTotal(),getPoint());
+        listeCommande.add(commande);
+        System.out.println(listeCommande.size());
         panier.clear();
+        acheteur.setPoints(getPoint()+ acheteur.getPoints());
         setPoint(0);
         setTotal(0);
 
 
         acheteur.Notifications.push("Votre commande a été confirmée, consultez l'état de votre commande avec le code suivant: " + code);
+        passerCommande();
     }
     public void menuGestion(){
+        if(listeCommande.size() < 1){
+            System.out.println("!!!Il n'y a aucune commande associée à ce compte!!!");
+            System.out.println();
+            menuMagasin();
+        }
         Scanner sc = new Scanner(System.in);
         catalogue = fetchCatalogue();
-
         boolean repeat = true;
         while (repeat) {
 
             System.out.println("Gestion des commandes");
             System.out.println("Présentez le code unique associé à la commande.");
             String code = sc.nextLine();
-            if(!commande.containsKey(code)){
-             System.out.println("!!!Le code saisi n'est pas associé à une commande!!!");
-             menuGestion();
-             }
-            List<Produit> commandeActuelle = commande.get(code);
-            System.out.println();
-            System.out.println("Sélectionnez l'option désirée pour la commande " + code + ":");
-            System.out.println("1. Vérifier l'état de la commande");
-            System.out.println("2. Effectuer un échange");
-            System.out.println("3. Effectuer un retour");
-            System.out.println("4. Annuler la commande");
-            System.out.println("5. Confirmer la réception de la commande");
-            System.out.println("6. Signaler une commande");
-            System.out.println("0. Retour");
+            for (int i = 0; i <listeCommande.size(); i++) {
+                if (code.equals(listeCommande.get(i).code)) {
+                    Commande commande = listeCommande.get(i);
+                    List<Produit> produitCommande = commande.getProduitCommande();
+                    if(produitCommande.size() == 0){
+                        System.out.println("!!!Cette commande n'a plus de produit a gérer!!!");
+                        listeCommande.remove(commande);
+                        System.out.println();
+                        menuMagasin();
+                    }
+                    System.out.println();
+                    System.out.println("Sélectionnez l'option désirée pour la commande " + code + ":");
+                    System.out.println("1. Vérifier l'état de la commande");
+                    System.out.println("2. Effectuer un échange");
+                    System.out.println("3. Effectuer un retour");
+                    System.out.println("4. Annuler la commande");
+                    System.out.println("5. Confirmer la réception de la commande");
+                    System.out.println("6. Signaler un problème avec la commande");
+                    System.out.println("0. Retour");
 
-            String input = sc.nextLine();
+                    String input = sc.nextLine();
 
-            try {
+                    try {
 
-                int option = Integer.parseInt(input);
+                        int option = Integer.parseInt(input);
 
-                switch (option) {
-                    case 1:
-                        repeat=false;  etatCommande(code);break;
-                    case 2:
-                        repeat=false; echangeCommande(code,commandeActuelle);break;
-                    case 3:
-                        repeat=false;retourCommande(code,commandeActuelle);break;
-                    case 4:
-                        repeat=false;annulerCommande(code,commandeActuelle);break;
-                    case 5:
-                        repeat=false;confirmerReception(code);break;
-                    case 6:
-                        repeat = false;
-                        signalerCommande(code);
-                    case 0:
-                        repeat=false; menuMagasin();break;
-                    default:
-                        System.out.println("!!!Option invalide. Veuillez entrer un nombre entier entre 0 et 4!!!");
+                        switch (option) {
+                            case 1:
+                                repeat = false;
+                                etatCommande(commande);
+                                break;
+                            case 2:
+                                repeat = false;
+                                if(produitCommande.size() == 0){
+                                    System.out.println("!!!Il n'y a plus de produit dans la commande!!!");
+                                }
+                                else{
+                                echangeCommande(commande, produitCommande);}
+                                break;
+                            case 3:
+                                repeat = false;
+                                retourCommande(commande, produitCommande);
+                                break;
+                            case 4:
+                                repeat = false;
+                                if(produitCommande.size() == 0){
+                                    System.out.println("!!!Il n'y a plus de produit dans la commande!!!");
+                                }
+                                else{
+                                annulerCommande(commande, produitCommande);}
+                                break;
+                            case 5:
+                                repeat = false;
+                                confirmerReception(commande);
+                                break;
+                            case 6:
+                                repeat = false;
+                                signalerCommande(code);
+                            case 0:
+                                repeat = false;
+                                menuMagasin();
+                                break;
+                            default:
+                                System.out.println("!!!Option invalide. Veuillez entrer un nombre entier entre 0 et 4!!!");
+                        }
+
+                    } catch (NumberFormatException nfe) {
+                        System.out.println("!!!Entrée invalide. Veuillez entrer un nombre entier!!!");
+                    }
+                } else if(i == listeCommande.size() - 1) {
+                    System.out.println("!!!Le code saisi n'est pas associé à une commande!!!");
+                    menuMagasin();
                 }
-
-            } catch (NumberFormatException nfe) {
-                System.out.println("!!!Entrée invalide. Veuillez entrer un nombre entier!!!");
+            }
             }
         }
-    }
-    public void etatCommande(String code){
+
+    public void etatCommande(Commande c){
 
         System.out.println("======================================");
-        System.out.println("État de la commande (" + code + "): En production");
+        System.out.println("État de la commande (" + c.code + "): " + c.getEtat());
         System.out.println("Date de livraison estimée: 18/12/23");
         System.out.println("======================================");
         menuGestion();
 
     }
-    public void echangeCommande(String code,List<Produit> commande){
+    public void echangeCommande(Commande c,List<Produit> commande){
         Scanner sc = new Scanner(System.in);
         try {
             System.out.println("Quel produit(s) voulez-vous échanger?");
@@ -447,43 +492,57 @@ public class Magasin extends Authentification {
             System.out.println("======================================");
             int input = sc.nextInt();
             Produit produitE = commande.get(input);
-            UUID uuid = UUID.randomUUID();
+            commande.remove(produitE);
+            c.setProduitCommande(commande);
+
+
             System.out.println("Quel produit(s) voulez-vous recevoir en échange?");
             System.out.println("======================================");
-            for (int i = 0; i < commande.size(); i++) {
-                System.out.println(i + ". " + commande.get(i).nom + " (" + commande.get(i).description + "), " + commande.get(i).prix / 100.0 + "$.");
+            for (int i = 0; i < catalogue.length; i++) {
+                System.out.println(i + ". " + catalogue[i].nom + " (" + catalogue[i].description + "), " + catalogue[i].prix / 100.0 + "$.");
             }
             System.out.println("======================================");
             int in = sc.nextInt();
-            Produit produitR = commande.get(in);
+
+            Produit produitR = catalogue[in];
+            commande.add(produitR);
+            c.setProduitCommande(commande);
+            int points = produitR.pointsBonus;
             int difference = produitE.prix - produitR.prix;
+
             if (difference < 0) {
                 System.out.println("======================================");
                 System.out.println("Vous devez une différence de " + (-difference / 100.0) + "$");
-                System.out.println("Suivez l'état de la livraison avec le code suivant: " + code);
+                System.out.println(points+" points de fidélité ont été déduit.");
+                System.out.println("Suivez l'état de la livraison avec le code suivant: " + c.code);
                 System.out.println("Retournez le produit à échanger à l'address suivante: 3200, rue Jean-Brillant ");
                 System.out.println("La demande sera annulée après 30 jours si le produit n'est pas reçu, merci.");
                 System.out.println("======================================");
                 acheteur.Notifications.push("Le produit " + produitE.nom + " est en cours d'échange.");
+                acheteur.setPoints(getPoint()-points);
                 menuGestion();
             } else if (difference > 0) {
                 System.out.println("======================================");
-                System.out.println("Un montant de " + "100$ need to change" + " a été remboursé à votre carte!");
-                System.out.println("Suivez l'état de la livraison avec le code suivant: " + code);
+                System.out.println("Un montant de " + difference/100.0 + " a été remboursé à votre carte!");
+                System.out.println(points+" points de fidélité ont été déduit.");
+                System.out.println("Suivez l'état de la livraison avec le code suivant: " + c.code);
                 System.out.println("Retournez le produit à échanger à l'address suivante: 3200, rue Jean-Brillant ");
                 System.out.println("La demande sera annulée après 30 jours si le produit n'est pas reçu, merci.");
                 System.out.println("======================================");
                 acheteur.Notifications.push("Le produit " + produitE.nom + " est en cours d'échange.");
+                acheteur.setPoints(getPoint()-points);
 
                 menuGestion();
             } else {
                 System.out.println("======================================");
                 System.out.println("Vous n'avez pas de différence à payer.");
-                System.out.println("Suivez l'état de la livraison avec le code suivant: " + code);
+                System.out.println(points+" points de fidélité ont été déduit.");
+                System.out.println("Suivez l'état de la livraison avec le code suivant: " + c.code);
                 System.out.println("Retournez le produit à échanger à l'address suivante: 3200, rue Jean-Brillant ");
                 System.out.println("La demande sera annulée après 30 jours si le produit n'est pas reçu, merci.");
                 System.out.println("======================================");
                 acheteur.Notifications.push("Le produit " + produitE.nom + " est en cours d'échange.");
+                acheteur.setPoints(getPoint()-points);
 
                 menuGestion();
             }
@@ -491,14 +550,14 @@ public class Magasin extends Authentification {
         catch (InputMismatchException ime) {
             System.out.println("!!!Entrée invalide. Veuillez entrer un nombre entier!!!");
             sc.nextLine();
-            echangeCommande(code, commande);
+            echangeCommande(c, commande);
         }catch (ArrayIndexOutOfBoundsException aioobe) {
             System.out.println("!!!Indice invalide. Veuillez choisir un indice valide!!!");
-            echangeCommande(code, commande);
+            echangeCommande(c, commande);
         }
     }
 
-    public void retourCommande(String code,List<Produit> commande) {
+    public void retourCommande(Commande c,List<Produit> commande) {
         Scanner sc = new Scanner(System.in);
         try {
             System.out.println("Quel produit(s) voulez-vous retourner??");
@@ -509,31 +568,35 @@ public class Magasin extends Authentification {
             System.out.println("======================================");
             int input = sc.nextInt();
             Produit produitE = commande.get(input);
+            commande.remove(produitE);
+            c.setProduitCommande(commande);
+
+            int points = produitE.pointsBonus;
 
 
-            UUID uuid = UUID.randomUUID();
             System.out.println("======================================");
             System.out.println("Un montant de " + produitE.prix / 100.0 + "$ sera remboursé à votre carte.");
-            System.out.println("Suivez l'état du retour avec le code suivant: " + code);
+            System.out.println(points+" points de fidélité ont été déduit.");
+            System.out.println("Suivez l'état du retour avec le code suivant: " + c.code);
             System.out.println("Retournez le produit à l'address suivante: 3200, rue Jean-Brillant ");
             System.out.println("La demande sera annulée après 30 jours si le produit n'est pas reçu, merci.");
             System.out.println("======================================");
 
             acheteur.Notifications.push("Le produit " + produitE.nom + " a été retourné.");
+            acheteur.setPoints(getPoint()-points);
 
-            // misAjourInventaireR(produitE); mis à jour de l'inventaire du revendeur
             menuGestion();
         }
         catch (InputMismatchException ime) {
             System.out.println("!!!Entrée invalide. Veuillez entrer un nombre entier!!!");
             sc.nextLine();
-            retourCommande(code, commande);
+            retourCommande(c, commande);
         }catch (ArrayIndexOutOfBoundsException aioobe) {
             System.out.println("!!!Indice invalide. Veuillez choisir un indice valide!!!");
-            retourCommande(code, commande);
+            retourCommande(c, commande);
         }
     }
-    public void annulerCommande(String code,List<Produit> commandeActuelle){
+    public void annulerCommande(Commande c,List<Produit> commandeActuelle){
         Scanner sc = new Scanner(System.in);
 
         System.out.println("Annuler la commande contennant?:");
@@ -556,10 +619,14 @@ public class Magasin extends Authentification {
                 switch (option) {
                     case 1:
                         System.out.println("======================================");
-                        System.out.println("La commande " + code + " a été annulée!");
-                        System.out.println("Un montant de " + "fix price" + " a été remboursé à votre carte!");
+                        System.out.println("La commande " + c.code + " a été annulée!");
+                        System.out.println("Un montant de " + c.totalPrixCommande/100.0 + " a été remboursé à votre carte!");
+                        System.out.println(c.totalPointsCommande+" points de fidélité ont été déduit.");
                         System.out.println("======================================");
-                        acheteur.Notifications.push("La commande " + code + " a été annulée.");
+                        acheteur.Notifications.push("La commande " + c.code + " a été annulée.");
+                        acheteur.setPoints(getPoint()-c.totalPointsCommande);
+                        commandeActuelle.clear();
+                        c.setProduitCommande(commandeActuelle);
 
                         menuGestion();break;
                     case 2:
@@ -573,9 +640,9 @@ public class Magasin extends Authentification {
             }
         }
     }
-    public void confirmerReception(String code){
+    public void confirmerReception(Commande c){
         Scanner sc = new Scanner(System.in);
-        System.out.println("Avez-vous reçu la commande: " + code + "?");
+        System.out.println("Avez-vous reçu la commande: " + c.getCode() + "?");
         boolean repeat = true;
         while(repeat){
 
@@ -591,8 +658,8 @@ public class Magasin extends Authentification {
                     case 1:
                         System.out.println("La commande a été livré");
                         System.out.println();
-                        //commande.etat = "livré";
-                        acheteur.Notifications.push("L'état de la commande a été changé à --> livré");
+                        c.etat = "Livré";
+                        acheteur.Notifications.push("L'état de la commande a été changé à --> Livré");
                         menuGestion();break;
                     case 2:
                         menuGestion();break;
@@ -621,6 +688,17 @@ public class Magasin extends Authentification {
 
         return stringBuilder.toString();
     }
+    public void signalerCommande(String code){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Veuillez décrire votre problème:");
+        String probleme = sc.nextLine();
+        Billet signalement = new Billet(acheteur,probleme, "", code, "");
+        System.out.println("Merci d'avoir entré votre problème, nous vous contacterons sous peu.");
+        System.out.println();
+        menuGestion();
+
+    }
+
     private Produit[] fetchCatalogue(){ //pris de AfficherCatalogue pour tester méthode d'ajout.
         //verifier la base de donnees, mais en attendant on en invente
 
@@ -632,14 +710,4 @@ public class Magasin extends Authentification {
 
         return new Produit[]{p1, p2, p3, p4};
     }
-    public void signalerCommande(String code){
-        Billet signalement = new Billet(acheteur,"", "", code, "");
-        System.out.println("Veuillez décrire votre problème:");
-        Scanner sc = new Scanner(System.in);
-        String probleme = sc.nextLine();
-        signalement.setProbleme(probleme);
-        System.out.println("Merci d'avoir entré votre problème, nous vous contacterons sous peu.");
-
-    }
-
-}   
+}
