@@ -13,6 +13,9 @@ public class Authentification {
         Acheteur a = new Acheteur();
         Revendeur r = new Revendeur();
 
+        Magasin m = new Magasin(a);
+
+
         System.out.println("Sélectionnez l'option désirée:");
         System.out.println("1. S'inscrire en tant qu'acheteur");
         System.out.println("2. S'inscrire en tant que revendeur");
@@ -30,9 +33,9 @@ public class Authentification {
                 int option = Integer.parseInt(inp);
 
                 switch (option) {
-                    case 1: connexionAcheteur(inscriptionAcheteur()); break;
+                    case 1: connexionAcheteur(inscriptionAcheteur(),m); break;
                     case 2: connexionRevendeur(inscriptionRevendeur()); break;
-                    case 3: connexionAcheteur(a); break;
+                    case 3: connexionAcheteur(a,m); break;
                     case 4: connexionRevendeur(r); break;
                     case 0: running = false; break;
                     default: System.out.println("Option invalide. Veuillez réessayer.");
@@ -44,10 +47,11 @@ public class Authentification {
         }
     }
 
-    public void connexionAcheteur(Acheteur acheteur) {
+    public void connexionAcheteur(Acheteur acheteur, Magasin magasin) {
         AcheteurRepo acheteurRepo = new AcheteurRepo();
         LinkedList<Acheteur> acheteurs = acheteurRepo.get();
-         if (acheteur.pseudo == null){
+
+        if (acheteur.pseudo == null){
             for (Acheteur a : acheteurs) {
                 if (a.pseudo.equals(acheteur.pseudo)) {
                     acheteur = a;
@@ -62,7 +66,6 @@ public class Authentification {
         }
 
 
-
         System.out.println("Vous êtes connecté en tant qu'acheteur: " + acheteur.pseudo);
         System.out.println("Sélectionnez l'option désirée:");
         System.out.println("1. Afficher le catalogue");
@@ -70,6 +73,7 @@ public class Authentification {
         System.out.println("3. Rechercher acheteur par pseudo (Suivre)");
         System.out.println("4. Modifier son profile");
         System.out.println("5. Voir ses points de fidélité");
+        System.out.println("6. Voir vos suiveurs");
         System.out.println("0. Quitter");
 
         while (running) {
@@ -83,13 +87,16 @@ public class Authentification {
                     case 1:
                         Catalogue(acheteur); break;
                     case 2:
-                        Magasin(acheteur); break;
+                        magasin.setMagasin(magasin);
+                        magasin.menuMagasin(); break;
                     case 3:
-                        RechercherAcheteur(acheteur); break;
+                        RechercherAcheteur(acheteur,magasin); break;
                     case 4:
-                        modifierProfilAcheteur(acheteur);break;
+                        modifierProfilAcheteur(acheteur,magasin);break;
                     case 5:
-                        pointFidelite(acheteur);break;
+                        pointFidelite(acheteur,magasin);break;
+                    case 6:
+                        acheteur.gererSuiveur();connexionAcheteur(acheteur,magasin);break;
                     case 0:
                         running = false; break;
                     default:
@@ -270,12 +277,7 @@ public class Authentification {
     private void Catalogue(Acheteur a) {
         AfficherCatalogue afficherCatalogue = new AfficherCatalogue(a);
     }
-    private void Magasin(Acheteur a){
-        Magasin magasin = new Magasin(a);
-        magasin.menuMagasin();
-
-    }
-private void pointFidelite(Acheteur a){
+private void pointFidelite(Acheteur a,Magasin m){
     System.out.println("Vous avez: " + a.getPoints() + " points!");
     System.out.println();
     System.out.println("Appuyez sur n'importe quelle touche pour revenir au menu acheteur.");
@@ -284,7 +286,7 @@ private void pointFidelite(Acheteur a){
     } catch (IOException e) {
         e.printStackTrace();
     }
-    connexionAcheteur(a);
+    connexionAcheteur(a,m);
 }
 
     private void OffrirProduit(Revendeur revendeur, RevendeurRepo revendeurRepo){
@@ -504,7 +506,7 @@ private void pointFidelite(Acheteur a){
         connexionRevendeur(r);
     }
 
-    private void RechercherAcheteur(Acheteur a) {
+    private void RechercherAcheteur(Acheteur a,Magasin m) {
         AcheteurRepo acheteurRepo = new AcheteurRepo();
         LinkedList<Acheteur> acheteurs = acheteurRepo.get();
 
@@ -532,6 +534,14 @@ private void pointFidelite(Acheteur a){
                 acheteurRecherche.SuiviPar.add(a.pseudo);
                 acheteurRecherche.Notifications.push("Vous avez été suivi par l'utilisateur: " + a.pseudo);
             }
+            else if(reponse.equals("N")){
+                connexionAcheteur(a,m);
+            }
+            else{
+                System.out.println("!!!Entrez soit 'Y' ou 'N'!!!");
+                System.out.println();
+                RechercherAcheteur(a,m);
+            }
         } else {
             System.out.println("Aucun acheteur trouvé avec ce pseudo.");
         }
@@ -543,7 +553,7 @@ private void pointFidelite(Acheteur a){
         } catch (IOException e) {
             e.printStackTrace();
         }
-        connexionAcheteur(a);
+        connexionAcheteur(a,m);
     }
 
     public void ConfirmerReception(Revendeur revendeur, RevendeurRepo revendeurRepo){
@@ -663,7 +673,7 @@ private void pointFidelite(Acheteur a){
             }
         }
     }
-    private void modifierProfilAcheteur(Acheteur a){
+    private void modifierProfilAcheteur(Acheteur a,Magasin m){
 
         while (running) {
             System.out.println("======================================");
@@ -717,7 +727,7 @@ private void pointFidelite(Acheteur a){
                         a.setTelephone(telephone);
                         break;
                     case 0:
-                        connexionAcheteur(a);
+                        connexionAcheteur(a,m);
                         break;
                     default:
                         System.out.println("Option invalide. Veuillez entrer un nombre entre 0 et 4.");
