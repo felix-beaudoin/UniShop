@@ -393,6 +393,7 @@ public class Magasin extends Authentification {
             System.out.println("3. Effectuer un retour");
             System.out.println("4. Annuler la commande");
             System.out.println("5. Confirmer la réception de la commande");
+            System.out.println("6. Signaler une commande");
             System.out.println("0. Retour");
 
             String input = sc.nextLine();
@@ -412,6 +413,9 @@ public class Magasin extends Authentification {
                         repeat=false;annulerCommande(code,commandeActuelle);break;
                     case 5:
                         repeat=false;confirmerReception(code);break;
+                    case 6:
+                        repeat = false;
+                        signalerCommande(code);
                     case 0:
                         repeat=false; menuMagasin();break;
                     default:
@@ -628,4 +632,14 @@ public class Magasin extends Authentification {
 
         return new Produit[]{p1, p2, p3, p4};
     }
-}
+    public void signalerCommande(String code){
+        Billet signalement = new Billet(acheteur,"", "", code, "");
+        System.out.println("Veuillez décrire votre problème:");
+        Scanner sc = new Scanner(System.in);
+        String probleme = sc.nextLine();
+        signalement.setProbleme(probleme);
+        System.out.println("Merci d'avoir entré votre problème, nous vous contacterons sous peu.");
+
+    }
+
+}   
