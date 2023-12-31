@@ -1,6 +1,7 @@
 package Main;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Stack;
@@ -23,33 +24,40 @@ public class Acheteur {
         points = 0;
 
     }
-     public void getListeAcheteur(Map<String, Acheteur> ListeAcheteur){
-        if(!ListeAcheteur.isEmpty()){
+    
+     public void getListeAcheteur(LinkedList<Acheteur> listeAcheteur) {
+        if (!listeAcheteur.isEmpty()) {
             System.out.println("Voici la liste des acheteurs");
-            for (Map.Entry<String, Acheteur> entry : ListeAcheteur.entrySet()) {
-                Acheteur acheteur = entry.getValue();
+            for (Acheteur acheteur : listeAcheteur) {
                 System.out.println(acheteur.getPrenom() + " " + acheteur.getNom());
             }
         } else {
             System.out.println("La liste des acheteurs est vide.");
         }
-    
-        
     }
+    
 
-    public void getProfilAcheteur(Map<String, Acheteur> ListeAcheteur){
+    public void getProfilAcheteur(LinkedList<Acheteur> listeAcheteur){
         Scanner scanner = new Scanner(System.in);
         System.out.print("Entrez le pseudonyme : ");
         String userName = scanner.nextLine();
-        if(ListeAcheteur.containsKey(userName)){
-            Acheteur acheteur = ListeAcheteur.get(userName);
-            System.out.println("Nom: " + acheteur.getNom());
-            System.out.println("Prenom: " + acheteur.getPrenom());
-            System.out.println("Adresse: " + acheteur.getAdresse());
-            System.out.println("Courriel: " + acheteur.getEmail());
-            System.out.println("Telephone: " + acheteur.getTelephone());
-            System.out.println("Role: " + acheteur.getRole());
-            System.out.println("Points: " + acheteur.getPoints());
+        boolean found = false;
+        for (Acheteur acheteur : listeAcheteur) {
+            if (acheteur.getPseudo().equals(userName)) {
+                System.out.println("Nom: " + acheteur.getNom());
+                System.out.println("Prenom: " + acheteur.getPrenom());
+                System.out.println("Adresse: " + acheteur.getAdresse());
+                System.out.println("Courriel: " + acheteur.getEmail());
+                System.out.println("Telephone: " + acheteur.getTelephone());
+                System.out.println("Role: " + acheteur.getRole());
+                System.out.println("Points: " + acheteur.getPoints());
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            System.out.println("Acheteur non trouvé.");
         }
     }
     public void afficherNotifications(Acheteur a){
