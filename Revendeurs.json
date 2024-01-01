@@ -1,0 +1,93 @@
+[
+  {
+    "nom": "Revendeur1",
+    "adresse": "123 Rue de la Paix, Montréal, QC",
+    "email": "revendeur1@example.com",
+    "role": "Revendeur",
+    "telephone": "514-123-4567",
+    "listeProduit": [],
+    "Notifications": []
+  },
+  {
+    "nom": "Revendeur2",
+    "adresse": "456 Boulevard Saint-Laurent, Montréal, QC",
+    "email": "revendeur2@example.com",
+    "role": "Revendeur",
+    "telephone": "514-234-5678",
+    "listeProduit": [],
+    "Notifications": []
+  },
+  {
+    "nom": "Revendeur3",
+    "adresse": "789 Avenue du Mont-Royal, Montréal, QC",
+    "email": "revendeur3@example.com",
+    "role": "Revendeur",
+    "telephone": "514-345-6789",
+    "listeProduit": [],
+    "Notifications": []
+  },
+  {
+    "nom": "Revendeur4",
+    "adresse": "321 Rue Sherbrooke, Montréal, QC",
+    "email": "revendeur4@example.com",
+    "role": "Revendeur",
+    "telephone": "514-456-7890",
+    "listeProduit": [],
+    "Notifications": []
+  },
+  {
+    "nom": "Revendeur5",
+    "adresse": "654 Boulevard de Maisonneuve, Montréal, QC",
+    "email": "revendeur5@example.com",
+    "role": "Revendeur",
+    "telephone": "514-567-8901",
+    "listeProduit": [],
+    "Notifications": []
+  },
+  {
+    "nom": "Revendeur6",
+    "adresse": "123 Rue Sherbrooke, Montréal, QC",
+    "email": "revendeur6@example.com",
+    "role": "Revendeur",
+    "telephone": "514-456-7770",
+    "listeProduit": [],
+    "Notifications": []
+  },
+  {
+    "nom": "Revendeur7",
+    "adresse": "456 Boulevard de Maisonneuve, Montréal, QC",
+    "email": "revendeur7@example.com",
+    "role": "Revendeur",
+    "telephone": "514-567-8999",
+    "listeProduit": [],
+    "Notifications": []
+  },
+  {
+    "nom": "Revendeur8",
+    "adresse": "987 Rue Saint-Denis, Montréal, QC",
+    "email": "revendeur8@example.com",
+    "role": "Revendeur",
+    "telephone": "514-678-9012",
+    "listeProduit": [],
+    "Notifications": []
+  },
+  {
+    "nom": "Revendeur9",
+    "adresse": "1234 Boulevard René-Lévesque, Montréal, QC",
+    "email": "revendeur9@example.com",
+    "role": "Revendeur",
+    "telephone": "514-789-0123",
+    "listeProduit": [],
+    "Notifications": []
+  },
+  {
+    "nom": "Revendeur10",
+    "adresse": "5678 Avenue Papineau, Montréal, QC",
+    "email": "revendeur10@example.com",
+    "role": "Revendeur",
+    "telephone": "514-890-1234",
+    "listeProduit": [],
+    "Notifications": []
+  }
+]
+

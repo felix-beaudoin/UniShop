@@ -1,0 +1,202 @@
+[
+  {
+    "id": 1,
+    "type": "TypeProduit1",
+    "prix": 1000,
+    "nbLikes": 10,
+    "quantite": 5,
+    "pointsBonus": 100,
+    "nom": "Produit1",
+    "categorie": "Categorie1",
+    "description": "Description1",
+    "liensMedia": ["lien1", "lien2"],
+    "Revendeur": {
+      "nom": "Revendeur1",
+      "adresse": "123 Rue de la Paix, Montréal, QC",
+      "email": "revendeur1@example.com",
+      "role": "Revendeur",
+      "telephone": "514-123-4567"
+    },
+    "commentaires": []
+  },
+  {
+    "id": 2,
+    "type": "TypeProduit2",
+    "prix": 2000,
+    "nbLikes": 20,
+    "quantite": 10,
+    "pointsBonus": 200,
+    "nom": "Produit2",
+    "categorie": "Categorie2",
+    "description": "Description2",
+    "liensMedia": ["lien3", "lien4"],
+    "Revendeur": {
+      "nom": "Revendeur2",
+      "adresse": "456 Boulevard Saint-Laurent, Montréal, QC",
+      "email": "revendeur2@example.com",
+      "role": "Revendeur",
+      "telephone": "514-234-5678"
+    },
+    "commentaires": []
+  },
+  {
+    "id": 3,
+    "type": "TypeProduit3",
+    "prix": 3000,
+    "nbLikes": 30,
+    "quantite": 15,
+    "pointsBonus": 300,
+    "nom": "Produit3",
+    "categorie": "Categorie3",
+    "description": "Description3",
+    "liensMedia": ["lien5", "lien6"],
+    "Revendeur": {
+      "nom": "Revendeur3",
+      "adresse": "789 Avenue du Mont-Royal, Montréal, QC",
+      "email": "revendeur3@example.com",
+      "role": "Revendeur",
+      "telephone": "514-345-6789"
+    },
+    "commentaires": []
+  },
+  {
+    "id": 4,
+    "type": "TypeProduit4",
+    "prix": 4000,
+    "nbLikes": 40,
+    "quantite": 20,
+    "pointsBonus": 400,
+    "nom": "Produit4",
+    "categorie": "Categorie4",
+    "description": "Description4",
+    "liensMedia": ["lien7", "lien8"],
+    "Revendeur": {
+      "nom": "Revendeur4",
+      "adresse": "321 Rue Sherbrooke, Montréal, QC",
+      "email": "revendeur4@example.com",
+      "role": "Revendeur",
+      "telephone": "514-456-7890"
+    },
+    "commentaires": []
+  },
+  {
+    "id": 5,
+    "type": "TypeProduit5",
+    "prix": 5000,
+    "nbLikes": 50,
+    "quantite": 25,
+    "pointsBonus": 500,
+    "nom": "Produit5",
+    "categorie": "Categorie5",
+    "description": "Description5",
+    "liensMedia": ["lien9", "lien10"],
+    "Revendeur": {
+      "nom": "Revendeur5",
+      "adresse": "654 Boulevard de Maisonneuve, Montréal, QC",
+      "email": "revendeur5@example.com",
+      "role": "Revendeur",
+      "telephone": "514-567-8901"
+    },
+    "commentaires": []
+  },
+  {
+    "id": 6,
+    "type": "TypeProduit6",
+    "prix": 6000,
+    "nbLikes": 60,
+    "quantite": 30,
+    "pointsBonus": 600,
+    "nom": "Produit6",
+    "categorie": "Categorie6",
+    "description": "Description6",
+    "liensMedia": ["lien11", "lien12"],
+    "Revendeur": {
+      "nom": "Revendeur6",
+      "adresse": "987 Rue Saint-Denis, Montréal, QC",
+      "email": "revendeur6@example.com",
+      "role": "Revendeur",
+      "telephone": "514-678-9012"
+    },
+    "commentaires": []
+  },
+  {
+    "id": 7,
+    "type": "TypeProduit7",
+    "prix": 7000,
+    "nbLikes": 70,
+    "quantite": 35,
+    "pointsBonus": 700,
+    "nom": "Produit7",
+    "categorie": "Categorie7",
+    "description": "Description7",
+    "liensMedia": ["lien13", "lien14"],
+    "Revendeur": {
+      "nom": "Revendeur7",
+      "adresse": "1234 Boulevard René-Lévesque, Montréal, QC",
+      "email": "revendeur7@example.com",
+      "role": "Revendeur",
+      "telephone": "514-789-0123"
+    },
+    "commentaires": []
+  },
+  {
+    "id": 8,
+    "type": "TypeProduit8",
+    "prix": 8000,
+    "nbLikes": 80,
+    "quantite": 40,
+    "pointsBonus": 800,
+    "nom": "Produit8",
+    "categorie": "Categorie8",
+    "description": "Description8",
+    "liensMedia": ["lien15", "lien16"],
+    "Revendeur": {
+      "nom": "Revendeur8",
+      "adresse": "5678 Avenue Papineau, Montréal, QC",
+      "email": "revendeur8@example.com",
+      "role": "Revendeur",
+      "telephone": "514-890-1234"
+    },
+    "commentaires": []
+  },
+  {
+    "id": 9,
+    "type": "TypeProduit9",
+    "prix": 9000,
+    "nbLikes": 90,
+    "quantite": 45,
+    "pointsBonus": 900,
+    "nom": "Produit9",
+    "categorie": "Categorie9",
+    "description": "Description9",
+    "liensMedia": ["lien17", "lien18"],
+    "Revendeur": {
+      "nom": "Revendeur9",
+      "adresse": "9012 Rue Sainte-Catherine, Montréal, QC",
+      "email": "revendeur9@example.com",
+      "role": "Revendeur",
+      "telephone": "514-901-2345"
+    },
+    "commentaires": []
+  },
+  {
+    "id": 10,
+    "type": "TypeProduit10",
+    "prix": 10000,
+    "nbLikes": 100,
+    "quantite": 50,
+    "pointsBonus": 1000,
+    "nom": "Produit10",
+    "categorie": "Categorie10",
+    "description": "Description10",
+    "liensMedia": ["lien19", "lien20"],
+    "Revendeur": {
+      "nom": "Revendeur10",
+      "adresse": "3456 Rue Saint-Hubert, Montréal, QC",
+      "email": "revendeur10@example.com",
+      "role": "Revendeur",
+      "telephone": "514-012-3456"
+    },
+    "commentaires": []
+  }
+]
